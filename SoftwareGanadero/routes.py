@@ -65,6 +65,9 @@ def eliminar_animal(id):
     return jsonify({"mensaje": "Animal eliminado exitosamente"})
 
 
+
+
+
 # Configuración para la carpeta donde se guardarán las imágenes
 UPLOAD_FOLDER = "static/images"
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
