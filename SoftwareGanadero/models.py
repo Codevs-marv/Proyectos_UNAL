@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 class Animal(db.Model):
-    __tablename__ = "Animales"  # Asegúrate de que coincida con tu tabla en SQL Server
+    __tablename__ = "Animales"  
 
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), nullable=False)
@@ -15,9 +15,14 @@ class Animal(db.Model):
     def to_json(self):
         return {
             "id": self.id,
-            "nombre": self.nombre,
+            "sexo": self.sexo,
             "edad": self.edad,
             "raza": self.raza,
             "peso": self.peso,
+            "proposito": self.proposito,
+            "fechaNacimiento": self.fechaNacimiento,
+            "lote": self.lote,
+            "cantidadPartos": self.cantidadPartos,
+            "fechaUltimoParto": self.fechaUltimoParto,
             "foto_url": self.foto_url
         }
