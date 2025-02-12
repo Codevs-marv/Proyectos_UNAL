@@ -8,6 +8,10 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
+@app.route("/subir_imagen", methods=["POST"])
+def subir_imagen():
+    return {"mensaje": "Ruta funcionando correctamente"}
+
 db.init_app(app)
 CORS(app)
 
