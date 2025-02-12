@@ -29,5 +29,5 @@ class Animal(db.Model):
             "lote": self.lote,
             "cantidadPartos": self.cantidadPartos,
             "fechaUltimoParto": str(self.fechaUltimoParto),
-            "foto_url": self.foto_url  # Retorna la URL de la imagen
+            "fotoUrl": self.fotoUrl  # Retorna la URL de la imagen
         }
