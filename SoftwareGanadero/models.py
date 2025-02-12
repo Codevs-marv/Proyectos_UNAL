@@ -1,16 +1,17 @@
-from flask_sqlalchemy import SQLAlchemy
-
-db = SQLAlchemy()
-
 class Animal(db.Model):
-    __tablename__ = "Animales"  
+    __tablename__ = "Animales"
 
     id = db.Column(db.Integer, primary_key=True)
-    nombre = db.Column(db.String(100), nullable=False)
+    sexo = db.Column(db.String(10), nullable=False)
     edad = db.Column(db.Integer, nullable=False)
     raza = db.Column(db.String(100), nullable=False)
     peso = db.Column(db.Float, nullable=False)
-    foto_url = db.Column(db.String(255))  # Guarda la URL de la foto
+    proposito = db.Column(db.String(100), nullable=False)
+    fechaNacimiento = db.Column(db.Date, nullable=False)
+    lote = db.Column(db.String(50), nullable=False)
+    cantidadPartos = db.Column(db.Integer, nullable=True)
+    fechaUltimoParto = db.Column(db.Date, nullable=True)
+    foto_url = db.Column(db.String(255), nullable=True)  # Nueva columna para la imagen
 
     def to_json(self):
         return {
@@ -20,9 +21,9 @@ class Animal(db.Model):
             "raza": self.raza,
             "peso": self.peso,
             "proposito": self.proposito,
-            "fechaNacimiento": self.fechaNacimiento,
+            "fechaNacimiento": str(self.fechaNacimiento),
             "lote": self.lote,
             "cantidadPartos": self.cantidadPartos,
-            "fechaUltimoParto": self.fechaUltimoParto,
-            "foto_url": self.foto_url
+            "fechaUltimoParto": str(self.fechaUltimoParto),
+            "foto_url": self.foto_url  # Retorna la URL de la imagen
         }
