@@ -8,13 +8,9 @@ routes = Blueprint("routes", __name__)
 
 # Obtener todos los animales
 @routes.route("/animales", methods=["GET"])
-def obtener_animales():
-    animales = Animal.query.all()
-    return jsonify([animal.to_json() for animal in animales])
 
 
 # ✅ Obtener todos los animales
-@routes.route("/animales", methods=["GET"])
 def obtener_animales():
     animales = Animal.query.all()
     animales_lista = [
