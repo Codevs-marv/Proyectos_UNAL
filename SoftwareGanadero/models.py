@@ -15,7 +15,7 @@ class Animal(db.Model):
     lote = db.Column(db.String(50), nullable=False)
     cantidadPartos = db.Column(db.Integer, nullable=True)
     fechaUltimoParto = db.Column(db.Date, nullable=True)
-    foto_url = db.Column(db.String(255), nullable=True)  # Nueva columna para la imagen
+    #foto_url = db.Column(db.String(255), nullable=True)  # Nueva columna para la imagen
 
     def to_json(self):
         return {
@@ -29,5 +29,5 @@ class Animal(db.Model):
             "lote": self.lote,
             "cantidadPartos": self.cantidadPartos,
             "fechaUltimoParto": str(self.fechaUltimoParto),
-            "fotoUrl": self.fotoUrl  # Retorna la URL de la imagen
+            #"fotoUrl": self.fotoUrl  # Retorna la URL de la imagen
         }
