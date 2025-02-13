@@ -3,9 +3,8 @@ from werkzeug.utils import secure_filename
 from models import db, Animal
 import os
 
-
-
 routes = Blueprint("routes", __name__)
+
 
 # Obtener todos los animales
 @routes.route("/animales", methods=["GET"])
@@ -13,47 +12,90 @@ def obtener_animales():
     animales = Animal.query.all()
     return jsonify([animal.to_json() for animal in animales])
 
-# Obtener un animal por ID
+
+# ✅ Obtener todos los animales
+@routes.route("/animales", methods=["GET"])
+def obtener_animales():
+    animales = Animal.query.all()
+    animales_lista = [
+        {
+            "id": animal.id,
+            "sexo": animal.sexo,
+            "edad": animal.edad,
+            "raza": animal.raza,
+            "peso": animal.peso,
+            "proposito": animal.proposito,
+            "fechaNacimiento": animal.fechaNacimiento,
+            "lote": animal.lote,
+            "cantidadPartos": animal.cantidadPartos,
+            "fechaUltimoParto": animal.fechaUltimoParto
+        }
+        for animal in animales
+    ]
+    return jsonify(animales_lista)
+
+# ✅ Buscar un animal por ID
 @routes.route("/animales/<int:id>", methods=["GET"])
 def obtener_animal(id):
     animal = Animal.query.get(id)
     if not animal:
         return jsonify({"error": "Animal no encontrado"}), 404
-    return jsonify(animal.to_json())
 
-# Agregar un nuevo animal
+    return jsonify({
+        "id": animal.id,
+        "sexo": animal.sexo,
+        "edad": animal.edad,
+        "raza": animal.raza,
+        "peso": animal.peso,
+        "proposito": animal.proposito,
+        "fechaNacimiento": animal.fechaNacimiento,
+        "lote": animal.lote,
+        "cantidadPartos": animal.cantidadPartos,
+        "fechaUltimoParto": animal.fechaUltimoParto
+    })
+
+# ✅ Añadir un nuevo animal
 @routes.route("/animales", methods=["POST"])
 def agregar_animal():
-    data = request.json
+    data = request.get_json()
     nuevo_animal = Animal(
-        nombre=data["nombre"],
+        sexo=data["sexo"],
         edad=data["edad"],
         raza=data["raza"],
         peso=data["peso"],
-        foto_url=data.get("foto_url")  # Puede ser opcional
+        proposito=data["proposito"],
+        fechaNacimiento=data["fechaNacimiento"],
+        lote=data["lote"],
+        cantidadPartos=data["cantidadPartos"],
+        fechaUltimoParto=data["fechaUltimoParto"]
     )
     db.session.add(nuevo_animal)
     db.session.commit()
-    return jsonify(nuevo_animal.to_json()), 201
 
-# Editar un animal
+    return jsonify({"mensaje": "Animal agregado correctamente"}), 201
+
+# ✅ Editar un animal
 @routes.route("/animales/<int:id>", methods=["PUT"])
 def editar_animal(id):
+    data = request.get_json()
     animal = Animal.query.get(id)
     if not animal:
         return jsonify({"error": "Animal no encontrado"}), 404
 
-    data = request.json
-    animal.nombre = data.get("nombre", animal.nombre)
-    animal.edad = data.get("edad", animal.edad)
-    animal.raza = data.get("raza", animal.raza)
-    animal.peso = data.get("peso", animal.peso)
-    animal.foto_url = data.get("foto_url", animal.foto_url)
+    animal.sexo = data["sexo"]
+    animal.edad = data["edad"]
+    animal.raza = data["raza"]
+    animal.peso = data["peso"]
+    animal.proposito = data["proposito"]
+    animal.fechaNacimiento = data["fechaNacimiento"]
+    animal.lote = data["lote"]
+    animal.cantidadPartos = data["cantidadPartos"]
+    animal.fechaUltimoParto = data["fechaUltimoParto"]
 
     db.session.commit()
-    return jsonify(animal.to_json())
+    return jsonify({"mensaje": "Animal actualizado correctamente"})
 
-# Eliminar un animal
+# ✅ Eliminar un animal
 @routes.route("/animales/<int:id>", methods=["DELETE"])
 def eliminar_animal(id):
     animal = Animal.query.get(id)
@@ -62,8 +104,7 @@ def eliminar_animal(id):
 
     db.session.delete(animal)
     db.session.commit()
-    return jsonify({"mensaje": "Animal eliminado exitosamente"})
-
+    return jsonify({"mensaje": "Animal eliminado correctamente"})
 
 
 
