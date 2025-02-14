@@ -16,6 +16,7 @@ def obtener_animales():
     animales_lista = [
         {
             "id": animal.id,
+            "marca": animal.marca,
             "sexo": animal.sexo,
             "edad": animal.edad,
             "raza": animal.raza,
@@ -40,6 +41,7 @@ def obtener_animal(id):
     return jsonify({
         "id": animal.id,
         "sexo": animal.sexo,
+        "marca": animal.marca,
         "edad": animal.edad,
         "raza": animal.raza,
         "peso": animal.peso,
@@ -57,6 +59,7 @@ def agregar_animal():
     nuevo_animal = Animal(
         sexo=data["sexo"],
         edad=data["edad"],
+        marca=data["marca"],
         raza=data["raza"],
         peso=data["peso"],
         proposito=data["proposito"],
@@ -80,6 +83,7 @@ def editar_animal(id):
 
     animal.sexo = data["sexo"]
     animal.edad = data["edad"]
+    animal.marca = data["marca"]
     animal.raza = data["raza"]
     animal.peso = data["peso"]
     animal.proposito = data["proposito"]
