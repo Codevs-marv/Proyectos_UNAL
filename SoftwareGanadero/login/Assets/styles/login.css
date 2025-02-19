@@ -2,13 +2,13 @@
     --white: #fefefe;
     --black: #000000;
     --dark: #232830;
-    --error: #ff3333;
+    --error: #f70606;
     --very-light-gray: #C7C7C7;
     --text-input-field: #F7F7F7;
     --green: #2a553a;
     --background: #ece8dd;
-    --sm: 14px;
-    --md: 16px;
+    --sm: 20px;
+    --md: 15px;
     --lg: 18px;
 
 }

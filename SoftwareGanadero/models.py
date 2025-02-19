@@ -7,6 +7,7 @@ class Animal(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     sexo = db.Column(db.String(10), nullable=False)
+    marca = db.Column(db.String(10), nullable=False)
     edad = db.Column(db.Integer, nullable=False)
     raza = db.Column(db.String(100), nullable=False)
     peso = db.Column(db.Float, nullable=False)
@@ -21,6 +22,7 @@ class Animal(db.Model):
         return {
             "id": self.id,
             "sexo": self.sexo,
+            "marca": self.marca,
             "edad": self.edad,
             "raza": self.raza,
             "peso": self.peso,
