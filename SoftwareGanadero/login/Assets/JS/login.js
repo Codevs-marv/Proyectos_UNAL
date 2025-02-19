@@ -1,7 +1,7 @@
 
 const user = {
-    "email": "sromerop2001@gmail.com",
-    "password": 1002193495
+    "email": "marcoansrv19@gmail.com",
+    "password": 102938
 }
 
 const formLogin = document.getElementById("form-login")
