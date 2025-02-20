@@ -37,7 +37,6 @@ class Animal(db.Model):
 
 class Insumo(db.Model):
     __tablename__ = "insumos"  # Asegura que el nombre coincida con la BD
-    id = db.Column(db.Integer, primary_key=True)
     descripcion = db.Column(db.String(255), nullable=False)
     cantidad = db.Column(db.Integer, nullable=False)
     unidadDeMedida = db.Column(db.String(50), nullable=False)

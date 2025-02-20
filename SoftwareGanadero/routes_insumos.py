@@ -1,8 +1,5 @@
 from flask import Blueprint, jsonify, request
 from models import db, Insumo  
-from routes_insumos import routes_insumos
-
-
 
 routes_insumos = Blueprint("routes_insumos", __name__, url_prefix="/insumos")
 
@@ -11,7 +8,6 @@ routes_insumos = Blueprint("routes_insumos", __name__, url_prefix="/insumos")
 def obtener_insumos():
     insumos = Insumo.query.all()
     insumos_json = [{
-        "id": insumo.id,
         "descripcion": insumo.descripcion,
         "cantidad": insumo.cantidad,
         "unidadDeMedida": insumo.unidadDeMedida,
@@ -33,19 +29,19 @@ def agregar_insumo():
             descripcion=data.get("descripcion", "").strip(),
             cantidad=int(data.get("cantidad", 0)),
             unidadDeMedida=data.get("unidadDeMedida", "").strip(),
-            valorUnitario=float(data.get("valor", 0.0)),
+            valorUnitario=float(data.get("valorUnitario", 0.0)),
             stockMinimo=int(data.get("stockMinimo", 0))
         )
         db.session.add(nuevo_insumo)
         db.session.commit()
-        return jsonify({"mensaje": "Insumo agregado correctamente", "id": nuevo_insumo.id}), 201
+        return jsonify({"mensaje": "Insumo agregado correctamente"}), 201
     except ValueError:
         return jsonify({"error": "Datos inválidos"}), 400
 
-# Editar un insumo
-@routes_insumos.route("/editar/<int:id>", methods=["PUT"])
-def editar_insumo(id):
-    insumo = Insumo.query.get(id)
+# Editar un insumo por su descripción
+@routes_insumos.route("/editar/<string:descripcion>", methods=["PUT"])
+def editar_insumo(descripcion):
+    insumo = Insumo.query.filter_by(descripcion=descripcion).first()
     if not insumo:
         return jsonify({"error": "Insumo no encontrado"}), 404
 
@@ -54,10 +50,9 @@ def editar_insumo(id):
         return jsonify({"error": "No se recibieron datos"}), 400
 
     try:
-        insumo.descripcion = data.get("descripcion", "").strip()
         insumo.cantidad = int(data.get("cantidad", insumo.cantidad))
         insumo.unidadDeMedida = data.get("unidadDeMedida", insumo.unidadDeMedida).strip()
-        insumo.valorUnitario = float(data.get("valor", insumo.valorUnitario))
+        insumo.valorUnitario = float(data.get("valorUnitario", insumo.valorUnitario))
         insumo.stockMinimo = int(data.get("stockMinimo", insumo.stockMinimo))
 
         db.session.commit()
@@ -65,10 +60,10 @@ def editar_insumo(id):
     except ValueError:
         return jsonify({"error": "Datos inválidos"}), 400
 
-# Eliminar un insumo
-@routes_insumos.route("/eliminar/<int:id>", methods=["DELETE"])
-def eliminar_insumo(id):
-    insumo = Insumo.query.get(id)
+# Eliminar un insumo por su descripción
+@routes_insumos.route("/eliminar/<string:descripcion>", methods=["DELETE"])
+def eliminar_insumo(descripcion):
+    insumo = Insumo.query.filter_by(descripcion=descripcion).first()
     if not insumo:
         return jsonify({"error": "Insumo no encontrado"}), 404
 
