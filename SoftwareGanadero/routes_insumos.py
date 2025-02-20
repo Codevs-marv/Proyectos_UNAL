@@ -1,5 +1,8 @@
 from flask import Blueprint, jsonify, request
 from models import db, Insumo  
+from routes_insumos import routes_insumos
+
+
 
 routes_insumos = Blueprint("routes_insumos", __name__, url_prefix="/insumos")
 
@@ -70,4 +73,5 @@ def eliminar_insumo(id):
         return jsonify({"error": "Insumo no encontrado"}), 404
 
     db.session.delete(insumo)
-    db.session.
+    db.session.commit()
+    return jsonify({"mensaje": "Insumo eliminado correctamente"}), 200
