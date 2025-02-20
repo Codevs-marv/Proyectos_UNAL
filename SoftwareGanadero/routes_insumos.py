@@ -1,59 +1,61 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, jsonify, request
 from models import db, Insumo  # Importar el modelo de insumos
 
 routes_insumos = Blueprint("routes_insumos", __name__, url_prefix="/insumos")
 
-# Ruta para ver todos los insumos
+# Ruta para obtener todos los insumos en formato JSON
 @routes_insumos.route("/", methods=["GET"])
 def obtener_insumos():
     insumos = Insumo.query.all()
-    return render_template("insumos/listar.html", insumos=insumos)
+    insumos_json = [{
+        "id": insumo.id,
+        "descripcion": insumo.descripcion,
+        "cantidad": insumo.cantidad,
+        "unidadDeMedida": insumo.unidadDeMedida,
+        "valorUnitario": insumo.valorUnitario,
+        "stockMinimo": insumo.stockMinimo
+    } for insumo in insumos]
+    return jsonify(insumos_json)
 
 # Ruta para agregar un insumo
-@routes_insumos.route('/agregar', methods=['GET', 'POST'])
+@routes_insumos.route("/agregar", methods=["POST"])
 def agregar_insumo():
-    if request.method == 'POST':
-        descripcion = request.form['descripcion']
-        cantidad = request.form['cantidad']
-        unidad = request.form['unidad']
-        valor = request.form['valor']
-        stock_min = request.form['stock_min']
-        
-        nuevo_insumo = Insumo(
-            descripcion=descripcion, 
-            cantidad=cantidad, 
-            unidadDeMedida=unidad, 
-            valorUnitario=valor, 
-            stockMinimo=stock_min
-        )
-        
-        db.session.add(nuevo_insumo)
-        db.session.commit()
-        
-        return redirect(url_for('routes_insumos.obtener_insumos'))
-    
-    return render_template('insumos/agregar.html')
+    data = request.json
+    nuevo_insumo = Insumo(
+        descripcion=data["descripcion"],
+        cantidad=data["cantidad"],
+        unidadDeMedida=data["unidad"],
+        valorUnitario=data["valor"],
+        stockMinimo=data["stock_min"]
+    )
+    db.session.add(nuevo_insumo)
+    db.session.commit()
+    return jsonify({"mensaje": "Insumo agregado correctamente", "id": nuevo_insumo.id})
 
 # Ruta para editar un insumo
-@routes_insumos.route('/editar/<int:id>', methods=['GET', 'POST'])
+@routes_insumos.route("/editar/<int:id>", methods=["PUT"])
 def editar_insumo(id):
-    insumo = Insumo.query.get_or_404(id)
-    if request.method == 'POST':
-        insumo.descripcion = request.form['descripcion']
-        insumo.cantidad = request.form['cantidad']
-        insumo.unidadDeMedida = request.form['unidad']
-        insumo.valorUnitario = request.form['valor']
-        insumo.stockMinimo = request.form['stock_min']
-        
-        db.session.commit()
-        return redirect(url_for('routes_insumos.obtener_insumos'))
+    insumo = Insumo.query.get(id)
+    if not insumo:
+        return jsonify({"error": "Insumo no encontrado"}), 404
     
-    return render_template('insumos/editar.html', insumo=insumo)
+    data = request.json
+    insumo.descripcion = data["descripcion"]
+    insumo.cantidad = data["cantidad"]
+    insumo.unidadDeMedida = data["unidad"]
+    insumo.valorUnitario = data["valor"]
+    insumo.stockMinimo = data["stock_min"]
+    
+    db.session.commit()
+    return jsonify({"mensaje": "Insumo actualizado correctamente"})
 
 # Ruta para eliminar un insumo
-@routes_insumos.route('/eliminar/<int:id>')
+@routes_insumos.route("/eliminar/<int:id>", methods=["DELETE"])
 def eliminar_insumo(id):
-    insumo = Insumo.query.get_or_404(id)
+    insumo = Insumo.query.get(id)
+    if not insumo:
+        return jsonify({"error": "Insumo no encontrado"}), 404
+    
     db.session.delete(insumo)
     db.session.commit()
-    return redirect(url_for('routes_insumos.obtener_insumos'))
+    return jsonify({"mensaje": "Insumo eliminado correctamente"})
