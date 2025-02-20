@@ -1,7 +1,9 @@
 from flask import Flask, request
+from flask_sqlalchemy import SQLAlchemy
 from config import SQLALCHEMY_DATABASE_URI
 from models import db
 from routes_animales import routes
+from routes_insumos import routes_insumos  # 🔹 Importar el Blueprint de insumos
 from flask_cors import CORS
 from flask_migrate import Migrate
 
@@ -17,7 +19,8 @@ db.init_app(app)
 CORS(app)
 
 migrate = Migrate(app, db)
-app.register_blueprint(routes)
+app.register_blueprint(routes)  # Blueprint de animales
+app.register_blueprint(routes_insumos)  # 🔹 Blueprint de insumos
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5001, debug=True)
