@@ -1,7 +1,13 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from models import db, Insumo  # Importar el modelo de insumos
 
-routes_insumos = Blueprint("routes_insumos", __name__)
+routes_insumos = Blueprint("routes_insumos", __name__, url_prefix="/insumos")
+
+@routes_insumos.route("/", methods=["GET"])
+def obtener_insumos():
+    insumos = Insumo.query.all()
+    return render_template("insumos/listar.html", insumos=insumos)
+
 
 # Ruta para ver todos los insumos
 @routes_insumos.route('/insumos')
