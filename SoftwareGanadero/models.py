@@ -36,9 +36,17 @@ class Animal(db.Model):
 
 
 class Insumo(db.Model):
-    __tablename__ = "insumos"  # Asegura que el nombre coincida con la BD
-    descripcion = db.Column(db.String(255), nullable=False)
+    __tablename__ = "insumos"
+
+    descripcion = db.Column(db.String(255), primary_key=True)  # Clave primaria
     cantidad = db.Column(db.Integer, nullable=False)
     unidadDeMedida = db.Column(db.String(50), nullable=False)
     valorUnitario = db.Column(db.Float, nullable=False)
     stockMinimo = db.Column(db.Integer, nullable=False)
+
+    def __init__(self, descripcion, cantidad, unidadDeMedida, valorUnitario, stockMinimo):
+        self.descripcion = descripcion
+        self.cantidad = cantidad
+        self.unidadDeMedida = unidadDeMedida
+        self.valorUnitario = valorUnitario
+        self.stockMinimo = stockMinimo
