@@ -33,3 +33,12 @@ class Animal(db.Model):
             "fechaUltimoParto": str(self.fechaUltimoParto),
             #"fotoUrl": self.fotoUrl  # Retorna la URL de la imagen
         }
+
+
+class Insumo(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    descripcion = db.Column(db.String(20), nullable=False)
+    cantidad = db.Column(db.Integer, nullable=False)
+    unidadDeMedida = db.Column(db.String(10), nullable=False)
+    valorUnitario = db.Column(db.Float, nullable=False)  # Usamos Float para representar el tipo Money
+    stockMinimo = db.Column(db.Integer, nullable=False)
