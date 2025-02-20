@@ -1,9 +1,9 @@
 from flask import Blueprint, jsonify, request
-from models import db, Insumo  # Importar el modelo de insumos
+from models import db, Insumo  
 
 routes_insumos = Blueprint("routes_insumos", __name__, url_prefix="/insumos")
 
-# Ruta para obtener todos los insumos en formato JSON
+# Obtener todos los insumos en JSON
 @routes_insumos.route("/", methods=["GET"])
 def obtener_insumos():
     insumos = Insumo.query.all()
@@ -15,47 +15,59 @@ def obtener_insumos():
         "valorUnitario": insumo.valorUnitario,
         "stockMinimo": insumo.stockMinimo
     } for insumo in insumos]
-    return jsonify(insumos_json)
+    return jsonify(insumos_json), 200
 
-# Ruta para agregar un insumo
+# Agregar un insumo
 @routes_insumos.route("/agregar", methods=["POST"])
 def agregar_insumo():
     data = request.json
-    nuevo_insumo = Insumo(
-        descripcion=data["descripcion"],
-        cantidad=data["cantidad"],
-        unidadDeMedida=data["unidad"],
-        valorUnitario=data["valor"],
-        stockMinimo=data["stock_min"]
-    )
-    db.session.add(nuevo_insumo)
-    db.session.commit()
-    return jsonify({"mensaje": "Insumo agregado correctamente", "id": nuevo_insumo.id})
 
-# Ruta para editar un insumo
+    if not data:
+        return jsonify({"error": "No se recibieron datos"}), 400
+
+    try:
+        nuevo_insumo = Insumo(
+            descripcion=data.get("descripcion", "").strip(),
+            cantidad=int(data.get("cantidad", 0)),
+            unidadDeMedida=data.get("unidadDeMedida", "").strip(),
+            valorUnitario=float(data.get("valor", 0.0)),
+            stockMinimo=int(data.get("stockMinimo", 0))
+        )
+        db.session.add(nuevo_insumo)
+        db.session.commit()
+        return jsonify({"mensaje": "Insumo agregado correctamente", "id": nuevo_insumo.id}), 201
+    except ValueError:
+        return jsonify({"error": "Datos inválidos"}), 400
+
+# Editar un insumo
 @routes_insumos.route("/editar/<int:id>", methods=["PUT"])
 def editar_insumo(id):
     insumo = Insumo.query.get(id)
     if not insumo:
         return jsonify({"error": "Insumo no encontrado"}), 404
-    
-    data = request.json
-    insumo.descripcion = data["descripcion"]
-    insumo.cantidad = data["cantidad"]
-    insumo.unidadDeMedida = data["unidad"]
-    insumo.valorUnitario = data["valor"]
-    insumo.stockMinimo = data["stock_min"]
-    
-    db.session.commit()
-    return jsonify({"mensaje": "Insumo actualizado correctamente"})
 
-# Ruta para eliminar un insumo
+    data = request.json
+    if not data:
+        return jsonify({"error": "No se recibieron datos"}), 400
+
+    try:
+        insumo.descripcion = data.get("descripcion", "").strip()
+        insumo.cantidad = int(data.get("cantidad", insumo.cantidad))
+        insumo.unidadDeMedida = data.get("unidadDeMedida", insumo.unidadDeMedida).strip()
+        insumo.valorUnitario = float(data.get("valor", insumo.valorUnitario))
+        insumo.stockMinimo = int(data.get("stockMinimo", insumo.stockMinimo))
+
+        db.session.commit()
+        return jsonify({"mensaje": "Insumo actualizado correctamente"}), 200
+    except ValueError:
+        return jsonify({"error": "Datos inválidos"}), 400
+
+# Eliminar un insumo
 @routes_insumos.route("/eliminar/<int:id>", methods=["DELETE"])
 def eliminar_insumo(id):
     insumo = Insumo.query.get(id)
     if not insumo:
         return jsonify({"error": "Insumo no encontrado"}), 404
-    
+
     db.session.delete(insumo)
-    db.session.commit()
-    return jsonify({"mensaje": "Insumo eliminado correctamente"})
+    db.session.
