@@ -40,5 +40,5 @@ class Insumo(db.Model):
     descripcion = db.Column(db.String(20), nullable=False)
     cantidad = db.Column(db.Integer, nullable=False)
     unidadDeMedida = db.Column(db.String(10), nullable=False)
-    valorUnitario = db.Column(db.Float, nullable=False)  # Usamos Float para representar el tipo Money
+    valorUnitario = db.Column(db.Numeric(10, 2))  # 10 dígitos en total, 2 decimales
     stockMinimo = db.Column(db.Integer, nullable=False)

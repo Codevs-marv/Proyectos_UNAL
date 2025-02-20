@@ -3,6 +3,7 @@ from config import SQLALCHEMY_DATABASE_URI
 from models import db
 from routes_animales import routes
 from flask_cors import CORS
+from flask_migrate import Migrate
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
@@ -15,6 +16,7 @@ def subir_imagen():
 db.init_app(app)
 CORS(app)
 
+migrate = Migrate(app, db)
 app.register_blueprint(routes)
 
 if __name__ == "__main__":
