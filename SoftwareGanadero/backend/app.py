@@ -2,8 +2,8 @@ from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
 from config import SQLALCHEMY_DATABASE_URI
 from models import db
-from routes_animales import routes
-from routes_insumos import routes_insumos  # 🔹 Importar el Blueprint de insumos
+from routes.routes_animales import routes
+from routes.routes_insumos import routes_insumos  # 🔹 Importar el Blueprint de insumos
 from flask_cors import CORS
 from flask_migrate import Migrate
 
