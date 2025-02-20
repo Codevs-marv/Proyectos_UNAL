@@ -36,9 +36,10 @@ class Animal(db.Model):
 
 
 class Insumo(db.Model):
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    descripcion = db.Column(db.String(20), nullable=False)
+    __tablename__ = "insumos"  # Asegura que el nombre coincida con la BD
+    id = db.Column(db.Integer, primary_key=True)
+    descripcion = db.Column(db.String(255), nullable=False)
     cantidad = db.Column(db.Integer, nullable=False)
-    unidadDeMedida = db.Column(db.String(10), nullable=False)
-    valorUnitario = db.Column(db.Float)
+    unidadDeMedida = db.Column(db.String(50), nullable=False)
+    valorUnitario = db.Column(db.Float, nullable=False)
     stockMinimo = db.Column(db.Integer, nullable=False)
