@@ -1,37 +1,35 @@
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.getElementById("form-login");
 
-const user = {
-    "email": "marcoansrv19@gmail.com",
-    "password": 102938
-}
+    form.addEventListener("submit", async function (event) {
+        event.preventDefault();  // Evita que la página se recargue
 
-const formLogin = document.getElementById("form-login")
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const errorMsg = document.querySelector(".error");
 
-formLogin.addEventListener("submit", (event) =>{
-    event.preventDefault()
+        try {
+            const response = await fetch("http://127.0.0.1:5001/usuarios/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ correo: email, contraseña: password })  // Enviar datos al backend
+            });
 
-    const formEmail = document.getElementById("email")
-    const formPass = document.getElementById("password")
-    const email = formEmail.value
-    const password = formPass.value
+            const data = await response.json();
 
-    if (email == user.email && password == user.password){
-        window.location.href = "../index.html";
-    } else {
-        console.log("Error");
-        const labels = document.querySelectorAll(".label")
-        const inputs = document.querySelectorAll(".input")
-        const message = document.querySelector(".error")
-
-        for (const label of labels) {
-            label.classList.add("error");
+            if (response.ok) {
+                alert("Bienvenido, " + data.usuario);
+                window.location.href = "index.html";  // Redirigir a la página principal
+            } else {
+                errorMsg.textContent = data.error;
+                errorMsg.classList.remove("inactive");
+            }
+        } catch (error) {
+            console.error("Error en la petición:", error);
+            errorMsg.textContent = "Error de conexión con el servidor";
+            errorMsg.classList.remove("inactive");
         }
-        for (const input of inputs) {
-            input.classList.add("error-input");
-        }
-        
-        message.classList.toggle("inactive")
-
-    }
-    
-})
-
+    });
+});
