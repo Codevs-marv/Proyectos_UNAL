@@ -6,6 +6,7 @@ from routes.routes_animales import routes
 from routes.routes_insumos import routes_insumos  # 🔹 Importar el Blueprint de insumos
 from flask_cors import CORS
 from flask_migrate import Migrate
+from routes.routes_auth import routes_auth
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
@@ -19,6 +20,7 @@ db.init_app(app)
 CORS(app)
 
 migrate = Migrate(app, db)
+app.register_blueprint(routes_auth) # Blueprint de usuarios
 app.register_blueprint(routes)  # Blueprint de animales
 app.register_blueprint(routes_insumos)  # 🔹 Blueprint de insumos
 
