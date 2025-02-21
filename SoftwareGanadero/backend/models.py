@@ -1,6 +1,32 @@
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
+
+
+
 
 db = SQLAlchemy()
+
+
+
+class Usuario(db.Model):
+    __tablename__ = "Usuarios"  # Nombre de la tabla en la BD
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    nombre = db.Column(db.String(100), nullable=False)
+    correo = db.Column(db.String(100), unique=True, nullable=False)
+    contraseña = db.Column(db.String(255), nullable=False)  # Guardamos el hash
+    rol = db.Column(db.String(20), nullable=False)  # "admin" o "empleado"
+
+    def set_password(self, password):
+        """Encripta la contraseña antes de guardarla"""
+        self.contraseña = generate_password_hash(password)
+
+    def check_password(self, password):
+        """Verifica si la contraseña ingresada es correcta"""
+        return check_password_hash(self.contraseña, password)
+
+
+
 
 class Animal(db.Model):
     __tablename__ = "Animales"
@@ -33,6 +59,8 @@ class Animal(db.Model):
             "fechaUltimoParto": str(self.fechaUltimoParto),
             #"fotoUrl": self.fotoUrl  # Retorna la URL de la imagen
         }
+
+
 
 
 class Insumo(db.Model):
