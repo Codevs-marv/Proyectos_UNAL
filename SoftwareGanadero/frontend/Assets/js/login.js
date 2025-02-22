@@ -25,7 +25,7 @@ document.getElementById("form-login").addEventListener("submit", async function 
             localStorage.setItem("usuario", JSON.stringify(data.usuario));
 
             // Redirigir a la página principal
-            window.location.href = "../index.html";
+            window.location.href = "index.html";
         } else {
             // Mostrar mensaje de error
             console.log("Error: " + data.error);
