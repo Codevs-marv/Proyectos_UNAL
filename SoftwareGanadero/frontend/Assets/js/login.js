@@ -1,37 +1,47 @@
-document.getElementById("form-login").addEventListener("submit", async function (event) {
-    event.preventDefault(); // Evita que la página se recargue
+document.addEventListener("DOMContentLoaded", () => {
+    const formLogin = document.getElementById("form-login");
 
-    // Obtener valores de los campos
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+    formLogin.addEventListener("submit", async (event) => {
+        event.preventDefault(); // Evita que la página se recargue
 
-    try {
-        // Enviar datos al backend
-        const response = await fetch("http://127.0.0.1:5001/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                correo: email,  // El backend espera "correo", no "email"
-                contrasena: password  // El backend espera "contrasena"
-            })
-        });
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
 
-        const data = await response.json(); // Convertir la respuesta a JSON
+        try {
+            const response = await fetch("http://127.0.0.1:5001/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ correo: email, contrasena: password }),
+            });
 
-        if (response.ok) {
-            // Guardar datos en localStorage para mantener la sesión
-            localStorage.setItem("usuario", JSON.stringify(data.usuario));
+            // Intenta parsear la respuesta
+            let data;
+            try {
+                data = await response.json();
+            } catch (error) {
+                console.error("❌ Error al convertir la respuesta en JSON:", error);
+                alert("Error en el servidor. Inténtalo de nuevo.");
+                return;
+            }
 
-            // Redirigir a la página principal
-            window.location.href = "index.html";
-        } else {
-            // Mostrar mensaje de error
-            console.log("Error: " + data.error);
-            document.querySelector(".error").classList.remove("inactive");
+            if (response.ok && data.usuario) {
+                console.log("✅ Usuario logueado:", data);
+
+                // Guardar usuario en sessionStorage
+                sessionStorage.setItem("usuario", JSON.stringify(data.usuario));
+
+                // Verificar que se guardó correctamente
+                console.log("🔹 Usuario en sessionStorage:", sessionStorage.getItem("usuario"));
+
+                // Redirigir a index.html
+                window.location.href = "index.html";
+            } else {
+                console.error("❌ Error en login:", data);
+                alert(data.mensaje || "Usuario o contraseña incorrectos");
+            }
+        } catch (error) {
+            console.error("❌ Error en la petición:", error);
+            alert("Error al conectar con el servidor");
         }
-    } catch (error) {
-        console.error("Error en la conexión:", error);
-    }
+    });
 });
