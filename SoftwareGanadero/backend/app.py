@@ -18,8 +18,8 @@ def subir_imagen():
 
 db.init_app(app)
 CORS(app)
-
 migrate = Migrate(app, db)
+
 app.register_blueprint(routes_auth) # Blueprint de usuarios
 app.register_blueprint(routes)  # Blueprint de animales
 app.register_blueprint(routes_insumos)  # 🔹 Blueprint de insumos
