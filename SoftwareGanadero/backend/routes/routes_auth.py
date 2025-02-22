@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
-from models import db, Usuario
 from werkzeug.security import check_password_hash
+from models import db, Usuario
 
 routes_auth = Blueprint("routes_auth", __name__)
 
@@ -10,19 +10,17 @@ def login():
     correo = data.get("correo")
     contrasena = data.get("contrasena")
 
-    if not correo or not contrasena:
-        return jsonify({"error": "Faltan datos"}), 400
-
+    # Buscar usuario en la base de datos
     usuario = Usuario.query.filter_by(correo=correo).first()
 
     if not usuario:
         return jsonify({"error": "Usuario no encontrado"}), 404
 
-    # Comparar la contraseña encriptada
-    if not usuario.check_password(contrasena):
+    # Verificar la contraseña encriptada
+    if not check_password_hash(usuario.contrasena, contrasena):
         return jsonify({"error": "Credenciales incorrectas"}), 401
 
     return jsonify({
-        "mensaje": "Login exitoso",
+        "mensaje": "Inicio de sesión exitoso",
         "usuario": usuario.to_json()
     }), 200
