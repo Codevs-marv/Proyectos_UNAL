@@ -18,8 +18,8 @@ def login():
     if not usuario:
         return jsonify({"error": "Usuario no encontrado"}), 404
 
-    # Verificamos la contraseña
-    if not check_password_hash(usuario.contraseña, contraseña):
+    # Comparar la contraseña encriptada
+    if not usuario.check_password(contraseña):
         return jsonify({"error": "Credenciales incorrectas"}), 401
 
     return jsonify({
