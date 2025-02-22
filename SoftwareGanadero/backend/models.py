@@ -9,21 +9,22 @@ db = SQLAlchemy()
 
 
 class Usuario(db.Model):
-    __tablename__ = "Usuarios"  # Nombre de la tabla en la BD
+    __tablename__ = "Usuarios"  # Asegúrate de que coincide con la tabla en SQL
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     nombre = db.Column(db.String(100), nullable=False)
-    correo = db.Column(db.String(100), unique=True, nullable=False)
-    contraseña = db.Column(db.String(255), nullable=False)  # Guardamos el hash
-    rol = db.Column(db.String(20), nullable=False)  # "admin" o "empleado"
+    correo = db.Column(db.String(100), unique=True, nullable=False)  # <- Antes email, ahora correo
+    contraseña = db.Column(db.String(255), nullable=False)  # <- Antes password, ahora contraseña
+    rol = db.Column(db.String(50), nullable=False)
 
-    def set_password(self, password):
-        """Encripta la contraseña antes de guardarla"""
-        self.contraseña = generate_password_hash(password)
+    def to_json(self):
+        return {
+            "id": self.id,
+            "nombre": self.nombre,
+            "correo": self.correo,
+            "rol": self.rol
+        }
 
-    def check_password(self, password):
-        """Verifica si la contraseña ingresada es correcta"""
-        return check_password_hash(self.contraseña, password)
 
 
 
