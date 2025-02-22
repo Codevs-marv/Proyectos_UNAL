@@ -7,25 +7,22 @@ from werkzeug.security import generate_password_hash, check_password_hash
 db = SQLAlchemy()
 
 
-
 class Usuario(db.Model):
-    __tablename__ = "Usuarios"  # Asegúrate de que coincide con la tabla en SQL
+    __tablename__ = "DatosUsuarios"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     nombre = db.Column(db.String(100), nullable=False)
-    correo = db.Column(db.String(100), unique=True, nullable=False)  # <- Antes email, ahora correo
-    contraseña = db.Column(db.String(255), nullable=False)  # <- Antes password, ahora contraseña
+    correo = db.Column(db.String(100), unique=True, nullable=False)
+    contraseña = db.Column(db.String(255), nullable=False)  # Aumentamos a 255 caracteres
     rol = db.Column(db.String(50), nullable=False)
 
-    def to_json(self):
-        return {
-            "id": self.id,
-            "nombre": self.nombre,
-            "correo": self.correo,
-            "rol": self.rol
-        }
+    def set_password(self, password):
+        """Encripta la contraseña antes de guardarla"""
+        self.contraseña = generate_password_hash(password)
 
-
+    def check_password(self, password):
+        """Verifica si la contraseña ingresada es correcta"""
+        return check_password_hash(self.contraseña, password)
 
 
 
