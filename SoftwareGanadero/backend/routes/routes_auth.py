@@ -17,7 +17,7 @@ def login():
         return jsonify({"error": "Usuario no encontrado"}), 404
 
     # Verificar la contraseña encriptada
-    if not check_password_hash(usuario.contrasena, contrasena):
+    if not usuario.contrasena or not check_password_hash(usuario.contrasena, contrasena):
         return jsonify({"error": "Credenciales incorrectas"}), 401
 
     return jsonify({

@@ -23,6 +23,14 @@ class Usuario(db.Model):
     def check_password(self, password):
         """Verifica si la contraseña ingresada es correcta"""
         return check_password_hash(self.contrasena, password)
+    
+    def to_json(self):
+        return {
+            "id": self.id,
+            "nombre": self.nombre,
+            "correo": self.correo,
+            "rol": self.rol
+        }
 
 
 
