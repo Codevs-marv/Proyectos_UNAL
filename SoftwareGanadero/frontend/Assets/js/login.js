@@ -24,20 +24,30 @@ document.addEventListener("DOMContentLoaded", () => {
                 return;
             }
 
+            // Verificamos si la respuesta es correcta y contiene datos de usuario
             if (response.ok && data.usuario) {
-                console.log("✅ Usuario logueado:", data);
+                console.log("✅ Usuario logueado:", data.usuario);
 
                 // Guardar usuario en sessionStorage
                 sessionStorage.setItem("usuario", JSON.stringify(data.usuario));
 
-                // Verificar que se guardó correctamente
-                console.log("🔹 Usuario en sessionStorage:", sessionStorage.getItem("usuario"));
+                // Verificar si el usuario se guardó correctamente
+                const usuarioGuardado = sessionStorage.getItem("usuario");
+                if (usuarioGuardado) {
+                    console.log("🔹 Usuario en sessionStorage:", usuarioGuardado);
 
-                // Redirigir a index.html
-                window.location.href = "index.html";
+                    // 🔹 Agregar log antes de redirigir
+                    console.log("🔄 Redirigiendo a index.html...");
+
+                    // Redirigir a index.html
+                    window.location.href = "index.html";
+                } else {
+                    console.error("❌ Error: No se pudo guardar el usuario en sessionStorage");
+                    alert("Error al procesar la sesión. Inténtalo de nuevo.");
+                }
             } else {
                 console.error("❌ Error en login:", data);
-                alert(data.mensaje || "Usuario o contraseña incorrectos");
+                alert("Usuario o contraseña incorrectos");
             }
         } catch (error) {
             console.error("❌ Error en la petición:", error);

@@ -23,7 +23,16 @@ def login():
     session["correo"] = usuario.correo
     session["rol"] = usuario.rol
 
-    return jsonify({"mensaje": "Inicio de sesión exitoso"})
+    return jsonify({
+        "mensaje": "Inicio de sesión exitoso",
+        "usuario": {
+            "id": usuario.id,
+            "nombre": usuario.nombre,
+            "correo": usuario.correo,
+            "rol": usuario.rol
+        }
+    })
+
 
 
 # RUTA PARA OBTENER DATOS DEL USUARIO
