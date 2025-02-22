@@ -1,3 +1,16 @@
+
+// VERIFICAR SI HAY SESION
+document.addEventListener("DOMContentLoaded", () => {
+    const usuario = sessionStorage.getItem("usuario");
+
+    if (!usuario) {
+        // Si no hay usuario en la sesión, redirigir al login
+        window.location.href = "login.html";
+    }
+});
+
+
+
 document.addEventListener("DOMContentLoaded", function () {
     const usuarioInfo = document.getElementById("usuario-info");
     const usuarioJSON = sessionStorage.getItem("usuario");
