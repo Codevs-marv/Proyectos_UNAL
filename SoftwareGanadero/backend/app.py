@@ -1,4 +1,5 @@
-from flask import Flask, request
+from flask import Flask, request, session
+from flask_session import Session 
 from flask_sqlalchemy import SQLAlchemy
 from config import SQLALCHEMY_DATABASE_URI
 from models import db
@@ -9,8 +10,15 @@ from flask_migrate import Migrate
 from routes.routes_auth import routes_auth
 
 app = Flask(__name__)
+
+# Configuracion BD
 app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+# Configuración de la sesión
+app.config["SECRET_KEY"] = "secreto123"  # Cambia esto por una clave segura
+app.config["SESSION_TYPE"] = "filesystem"  # Almacena las sesiones en archivos temporales
+Session(app)
 
 @app.route("/subir_imagen", methods=["GET","POST"])
 def subir_imagen():

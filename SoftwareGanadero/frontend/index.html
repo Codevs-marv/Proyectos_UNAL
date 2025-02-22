@@ -11,7 +11,7 @@
     <!-- Barra lateral -->
     <aside class="sidebar">
       <div class="logo">
-        <img src="./assets/img/Finca_El_Capricho-removebg-preview.png" alt="">
+        <img src="./assets/img/Finca_El_Capricho-removebg-preview.png" alt="Logo">
       </div>
       <nav class="menu">
         <ul>
@@ -24,30 +24,30 @@
             <span>Insumos</span>
           </li>
           <li class="options">
-            <img src="./assets/img/icons/vaca.png" alt="">
+            <img src="./assets/img/icons/vaca.png" alt="Icon">
             <span>Animales</span>
           </li>
         </ul>
       </nav>
-      <!-- <div class="admin">
-        <p>ADMIN</p>
-        <span class="status">Conectado</span>
-      </div> -->
     </aside>
-
-    <nav class=".navbar-menu">
-      
-    </nav>
 
     <!-- Contenido principal -->
     <main class="main-content">
       <header class="header">
-        <img src="./src/assets/img/icons/panel-de-control.png" alt="">
+        <img src="./assets/img/icons/panel-de-control.png" alt="Icon">
         <h2>Seguimiento beta</h2>
       </header>
+
+      <!-- Info del usuario y botón de cierre de sesión -->
+      <div class="user-info">
+        <p id="usuario-info"></p>
+        <button onclick="cerrarSesion()">Cerrar sesión</button>
+      </div>
+
       <div class="title">
         <h1>Panel de control</h1>
       </div>
+
       <section class="stats">
         <div class="stat-card">
           <p class="stat-title">Total de sucursales</p>
@@ -62,10 +62,14 @@
           <h3 class="stat-value">2</h3>
         </div>
       </section>
+
       <footer>
         <p>Sistema Tracking</p>
       </footer>
     </main>
   </div>
+
+  <!-- Importar el script para manejar sesiones -->
+  <script src="./assets/js/index.js"></script>
 </body>
 </html>
