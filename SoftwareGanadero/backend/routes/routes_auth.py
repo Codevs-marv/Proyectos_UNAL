@@ -8,9 +8,9 @@ routes_auth = Blueprint("routes_auth", __name__)
 def login():
     data = request.json
     correo = data.get("correo")
-    contraseña = data.get("contraseña")
+    contrasena = data.get("contrasena")
 
-    if not correo or not contraseña:
+    if not correo or not contrasena:
         return jsonify({"error": "Faltan datos"}), 400
 
     usuario = Usuario.query.filter_by(correo=correo).first()
@@ -19,7 +19,7 @@ def login():
         return jsonify({"error": "Usuario no encontrado"}), 404
 
     # Comparar la contraseña encriptada
-    if not usuario.check_password(contraseña):
+    if not usuario.check_password(contrasena):
         return jsonify({"error": "Credenciales incorrectas"}), 401
 
     return jsonify({
