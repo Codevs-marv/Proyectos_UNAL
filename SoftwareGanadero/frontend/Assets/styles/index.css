@@ -191,3 +191,84 @@ footer {
 footer {
     text-align: center;
 }
+/* Sección de Animales */
+#seccion-animales {
+    margin: 20px;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Contenedor de tarjetas */
+.animales-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Tarjeta de cada animal */
+.tarjeta-animal {
+    width: 250px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    text-align: center;
+    transition: transform 0.2s ease-in-out;
+}
+
+.tarjeta-animal:hover {
+    transform: scale(1.05);
+}
+
+/* Imagen del animal */
+.tarjeta-animal img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* Información del animal */
+.tarjeta-animal .info {
+    margin-top: 10px;
+}
+
+.tarjeta-animal h3 {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.tarjeta-animal p {
+    font-size: 14px;
+    color: #666;
+    margin: 3px 0;
+}
+
+/* Botones de editar y eliminar */
+.tarjeta-animal .btn-editar, 
+.tarjeta-animal .btn-eliminar {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    margin: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: background 0.3s ease-in-out;
+}
+
+.tarjeta-animal .btn-editar:hover {
+    background: #218838;
+}
+
+.tarjeta-animal .btn-eliminar {
+    background: #dc3545;
+}
+
+.tarjeta-animal .btn-eliminar:hover {
+    background: #c82333;
+}
