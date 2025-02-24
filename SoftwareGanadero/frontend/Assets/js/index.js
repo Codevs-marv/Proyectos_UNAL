@@ -31,6 +31,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const seccionAnimales = document.getElementById("seccion-animales");
     const contenedorAnimales = document.querySelector(".animales-container");
 
+    // Función para obtener la ruta de la imagen según la raza
+    const obtenerRutaImagen = (raza) => {
+        const nombreArchivo = raza.toLowerCase().replace(/\s+/g, "") + ".jpg";
+        const ruta = `./assets/img/${nombreArchivo}`;
+        return ruta;
+    };
+
     // Agregar evento para mostrar la sección de animales al hacer clic en el menú
     btnAnimales.addEventListener("click", async () => {
         console.log("🐄 Cargando lista de animales...");
@@ -57,16 +64,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 tarjeta.classList.add("tarjeta-animal");
 
                 tarjeta.innerHTML = `
-                    <img src="${animal.foto || './assets/img/animal-placeholder.jpg'}" alt="Foto de ${animal.raza}">
+                    <img src="${obtenerRutaImagen(animal.raza)}" 
+                         alt="Foto de ${animal.raza}" 
+                         onerror="this.onerror=null; this.src='./assets/img/animal-placeholder.jpg';">
                     <div class="info">
                         <h3>Raza: ${animal.raza}</h3>
                         <p><strong>ID:</strong> ${animal.id}</p>
                         <p><strong>Edad:</strong> ${animal.edad} años</p>
                         <p><strong>Peso:</strong> ${animal.peso} kg</p>
-                    </div>
-                    <div class="acciones">
-                        <button class="btn-editar" onclick="editarAnimal(${animal.id})">✏ Editar</button>
-                        <button class="btn-eliminar" onclick="eliminarAnimal(${animal.id})">🗑 Eliminar</button>
+                        <button class="btn-editar" onclick="editarAnimal(${animal.id})">Editar</button>
+                        <button class="btn-eliminar" onclick="eliminarAnimal(${animal.id})">Eliminar</button>
                     </div>
                 `;
 
