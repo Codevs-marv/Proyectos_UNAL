@@ -159,26 +159,47 @@ function editarAnimal(id) {
     modal.innerHTML = `
         <div class="modal-content">
             <h2>Editar Animal (ID: ${animal.id})</h2>
+            
             <label>Sexo:</label>
-            <input type="text" id="edit-sexo" value="${animal.sexo}">
+            <select id="edit-sexo">
+                <option value="Macho" ${animal.sexo === "Macho" ? "selected" : ""}>Macho</option>
+                <option value="Hembra" ${animal.sexo === "Hembra" ? "selected" : ""}>Hembra</option>
+            </select>
+
             <label>Marca:</label>
-            <input type="text" id="edit-marca" value="${animal.marca}">
+            <select id="edit-marca">
+                <option value="BHQZ" ${animal.marca === "BHQZ" ? "selected" : ""}>BHQZ</option>
+                <option value="PP8" ${animal.marca === "PP8" ? "selected" : ""}>PP8</option>
+            </select>
+
             <label>Edad:</label>
             <input type="number" id="edit-edad" value="${animal.edad}">
+
             <label>Raza:</label>
             <input type="text" id="edit-raza" value="${animal.raza}">
+
             <label>Peso:</label>
             <input type="number" id="edit-peso" value="${animal.peso}">
+
             <label>Propósito:</label>
-            <input type="text" id="edit-proposito" value="${animal.proposito}">
+            <select id="edit-proposito">
+                <option value="Lecheria" ${animal.proposito === "Lecheria" ? "selected" : ""}>Lechería</option>
+                <option value="Cria" ${animal.proposito === "Cria" ? "selected" : ""}>Cría</option>
+                <option value="DobleProposito" ${animal.proposito === "DobleProposito" ? "selected" : ""}>Doble Propósito</option>
+            </select>
+
             <label>Fecha de Nacimiento:</label>
             <input type="date" id="edit-fechaNacimiento" value="${animal.fechaNacimiento}">
+
             <label>Lote:</label>
             <input type="text" id="edit-lote" value="${animal.lote}">
+
             <label>Cantidad de Partos:</label>
             <input type="number" id="edit-cantidadPartos" value="${animal.cantidadPartos}">
+
             <label>Fecha Último Parto:</label>
             <input type="date" id="edit-fechaUltimoParto" value="${animal.fechaUltimoParto}">
+
             <div class="modal-buttons">
                 <button id="guardar-edicion">Guardar</button>
                 <button id="cerrar-modal">Cancelar</button>
@@ -198,12 +219,12 @@ function editarAnimal(id) {
     document.getElementById("guardar-edicion").addEventListener("click", async () => {
         console.log("💾 Guardando cambios...");
 
-        const nuevoSexo = document.getElementById("edit-sexo").value.trim();
-        const nuevaMarca = document.getElementById("edit-marca").value.trim();
+        const nuevoSexo = document.getElementById("edit-sexo").value;
+        const nuevaMarca = document.getElementById("edit-marca").value;
         const nuevaEdad = parseInt(document.getElementById("edit-edad").value);
         const nuevaRaza = document.getElementById("edit-raza").value.trim();
         const nuevoPeso = parseFloat(document.getElementById("edit-peso").value);
-        const nuevoProposito = document.getElementById("edit-proposito").value.trim();
+        const nuevoProposito = document.getElementById("edit-proposito").value;
         const nuevaFechaNacimiento = document.getElementById("edit-fechaNacimiento").value;
         const nuevoLote = document.getElementById("edit-lote").value.trim();
         const nuevaCantidadPartos = parseInt(document.getElementById("edit-cantidadPartos").value);
@@ -245,6 +266,7 @@ function editarAnimal(id) {
         }
     });
 }
+
 
 
 // Función para eliminar un animal

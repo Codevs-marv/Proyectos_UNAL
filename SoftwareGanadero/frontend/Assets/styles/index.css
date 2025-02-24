@@ -313,7 +313,7 @@ footer {
 .modal-content h2 {
     margin-top: 0;
     text-align: center;
-    color: #333;
+    color: #030303;
 }
 
 .modal-content label {
@@ -323,8 +323,8 @@ footer {
 }
 
 .modal-content input {
-    width: 100%;
-    padding: 8px;
+    width: 95%;
+    padding: 10px;
     margin-top: 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
