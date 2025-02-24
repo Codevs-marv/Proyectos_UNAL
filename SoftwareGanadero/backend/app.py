@@ -10,6 +10,8 @@ from flask_migrate import Migrate
 from routes.routes_auth import routes_auth
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "*"}})  # 🔹 Permite solicitudes desde cualquier origen
+
 
 # Configuracion BD
 app.config["SQLALCHEMY_DATABASE_URI"] = SQLALCHEMY_DATABASE_URI
@@ -25,7 +27,7 @@ def subir_imagen():
     return {"mensaje": "Ruta funcionando correctamente"}
 
 db.init_app(app)
-CORS(app)
+
 migrate = Migrate(app, db)
 
 app.register_blueprint(routes_auth) # Blueprint de usuarios
