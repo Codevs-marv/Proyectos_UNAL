@@ -1,6 +1,6 @@
 /* Generales */
 :root {
-    --white: #FFFFFF;
+    --white: #ffffff;
     --black: #000000;
     --dark: #232830;
     --very-light-gray: #81847d;
@@ -98,7 +98,8 @@ body {
 
 .header {
     background-color: var(--blue);
-    color: white;
+    color: rgb(58, 128, 46);
+    font-weight: 700;
     height: 56px;
     display: flex;
 }
