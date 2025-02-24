@@ -31,6 +31,28 @@ document.addEventListener("DOMContentLoaded", () => {
     const seccionAnimales = document.getElementById("seccion-animales");
     const contenedorAnimales = document.querySelector(".animales-container");
 
+    // Obtener elementos del buscador
+    const inputBuscar = document.getElementById("buscar-animal");
+    const btnBuscar = document.getElementById("btn-buscar");
+
+    // Evento para buscar un animal
+    btnBuscar.addEventListener("click", () => {
+        const query = inputBuscar.value.trim().toLowerCase();
+
+        if (query === "") {
+            alert("Por favor, ingrese un ID o raza para buscar.");
+            return;
+        }
+
+        // Filtrar animales que coincidan con la búsqueda
+        const animalesFiltrados = animalesData.filter(animal =>
+            animal.id.toString() === query || animal.raza.toLowerCase().includes(query)
+        );
+
+        // Mostrar los resultados
+        mostrarAnimales(animalesFiltrados);
+    });
+
     // Función para obtener la ruta de la imagen según la raza
     const obtenerRutaImagen = (raza) => {
         const nombreArchivo = raza.toLowerCase().replace(/\s+/g, "") + ".jpg";
@@ -234,10 +256,86 @@ function cerrarSesion() {
     window.location.href = "login.html";
 }
 
-// Funciones vacías para editar y eliminar
+// Función para abrir el formulario de edición
 function editarAnimal(id) {
-    console.log(`✏ Editar animal con ID: ${id}`);
+    console.log(`✏ Intentando editar el animal con ID: ${id}`);
+
+    const animal = animalesData.find(animal => animal.id === id);
+    if (!animal) {
+        console.error("❌ No se encontró el animal.");
+        alert("No se encontró el animal.");
+        return;
+    }
+
+    console.log("✅ Animal encontrado:", animal);
+
+    // Si ya existe un modal abierto, lo eliminamos antes de crear otro
+    const modalExistente = document.querySelector(".modal");
+    if (modalExistente) {
+        modalExistente.remove();
+    }
+
+    // Crear el modal de edición
+    const modal = document.createElement("div");
+    modal.classList.add("modal");
+
+    modal.innerHTML = `
+        <div class="modal-content">
+            <h2>Editar Animal (ID: ${animal.id})</h2>
+            <label>Raza:</label>
+            <input type="text" id="edit-raza" value="${animal.raza}">
+            <label>Edad:</label>
+            <input type="number" id="edit-edad" value="${animal.edad}">
+            <label>Peso:</label>
+            <input type="number" id="edit-peso" value="${animal.peso}">
+            <button id="guardar-edicion">Guardar</button>
+            <button id="cerrar-modal">Cancelar</button>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    // Evento para cerrar el modal
+    document.getElementById("cerrar-modal").addEventListener("click", () => {
+        console.log("🛑 Edición cancelada.");
+        modal.remove();
+    });
+
+    // Evento para guardar cambios
+    document.getElementById("guardar-edicion").addEventListener("click", async () => {
+        console.log("💾 Guardando cambios...");
+
+        const nuevaRaza = document.getElementById("edit-raza").value.trim();
+        const nuevaEdad = parseInt(document.getElementById("edit-edad").value);
+        const nuevoPeso = parseFloat(document.getElementById("edit-peso").value);
+
+        if (!nuevaRaza || isNaN(nuevaEdad) || isNaN(nuevoPeso)) {
+            alert("Por favor, complete todos los campos correctamente.");
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://127.0.0.1:5001/animales/${id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ raza: nuevaRaza, edad: nuevaEdad, peso: nuevoPeso })
+            });
+
+            if (!response.ok) {
+                throw new Error("No se pudo actualizar el animal.");
+            }
+
+            alert("✅ Animal actualizado correctamente.");
+            modal.remove();
+            btnAnimales.click(); // Recargar lista de animales
+        } catch (error) {
+            console.error("❌ Error al actualizar el animal:", error);
+            alert("Hubo un error al actualizar el animal.");
+        }
+    });
 }
+
+
 
 function eliminarAnimal(id) {
     console.log(`🗑 Eliminar animal con ID: ${id}`);
