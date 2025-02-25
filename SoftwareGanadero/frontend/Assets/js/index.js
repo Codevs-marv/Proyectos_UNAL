@@ -35,9 +35,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnAnimales = document.querySelector(".menu li:nth-child(3)");
     const seccionAnimales = document.getElementById("seccion-animales");
     const contenedorAnimales = document.querySelector(".animales-container");
+    const buscadorAnimales = document.getElementById("buscador-animales"); // 🔹 Nuevo: Contenedor del buscador
+    const inputBuscar = document.getElementById("buscar-animal");
+    const btnBuscar = document.getElementById("btn-buscar");
     const btnAnterior = document.getElementById("btn-anterior");
     const btnSiguiente = document.getElementById("btn-siguiente");
     const paginaActualSpan = document.getElementById("pagina-actual");
+
+    // Ocultar el buscador al inicio
+    buscadorAnimales.classList.add("inactive");
 
     // Función para obtener la imagen de la raza
     const obtenerRutaImagen = (raza) => {
@@ -121,7 +127,25 @@ document.addEventListener("DOMContentLoaded", () => {
     btnAnimales.addEventListener("click", () => {
         console.log("📢 Click en Animales");
         seccionAnimales.classList.remove("inactive");
+        buscadorAnimales.classList.remove("inactive"); // 🔹 Mostrar el buscador
         cargarAnimales();
+    });
+
+    // Evento para buscar animales
+    btnBuscar.addEventListener("click", () => {
+        const query = inputBuscar.value.trim().toLowerCase();
+        if (query === "") {
+            alert("Por favor, ingrese un ID o raza para buscar.");
+            return;
+        }
+
+        // Filtrar animales que coincidan con la búsqueda
+        const animalesFiltrados = animalesData.filter(animal =>
+            animal.id.toString() === query || animal.raza.toLowerCase().includes(query)
+        );
+
+        // Mostrar los resultados
+        mostrarPagina(animalesFiltrados);
     });
 });
 
@@ -131,6 +155,8 @@ function cerrarSesion() {
     sessionStorage.removeItem("usuario");
     window.location.href = "login.html";
 }
+
+
 
 // Función para abrir el formulario de edición
 // Función para abrir el modal de edición
