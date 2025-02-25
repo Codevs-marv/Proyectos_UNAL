@@ -356,25 +356,25 @@ footer {
     background-color: #b92030;
 }
 
-#buscador-animales {
-    display: flex;
+#buscador-animales.inactive {
+    display: none;
     justify-content: center; /* Centrar horizontalmente */
     gap: 10px; /* Espacio entre input y botón */
-    margin-bottom: 15px; /* Espacio con las tarjetas */
+    margin-bottom: 35px; /* Espacio con las tarjetas */
 }
 
 #buscar-animal {
     width: 250px;
     padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: 1px solid #b8b7b7;
+    border-radius: 10px;
     font-size: 16px;
 }
 
 #btn-buscar {
     background: #28a745;
     color: white;
-    border: none;
+    border-radius: 20px;
     padding: 8px 15px;
     border-radius: 5px;
     font-size: 16px;
@@ -383,5 +383,5 @@ footer {
 }
 
 #btn-buscar:hover {
-    background: #218838;
+    background: #1d7730;
 }

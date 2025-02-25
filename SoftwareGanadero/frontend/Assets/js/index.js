@@ -18,9 +18,9 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // Variables globales
-let animalesData = [];  
+let animalesData = [];
 let paginaActual = 1;
-const animalesPorPagina = 20; // Número de tarjetas por página
+const animalesPorPagina = 20;
 
 // Verificar sesión y redirigir si no hay usuario
 document.addEventListener("DOMContentLoaded", () => {
@@ -35,14 +35,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnAnimales = document.querySelector(".menu li:nth-child(3)");
     const seccionAnimales = document.getElementById("seccion-animales");
     const contenedorAnimales = document.querySelector(".animales-container");
-    const buscadorAnimales = document.getElementById("buscador-animales"); // 🔹 Nuevo: Contenedor del buscador
+    const buscadorAnimales = document.getElementById("buscador-animales");
     const inputBuscar = document.getElementById("buscar-animal");
     const btnBuscar = document.getElementById("btn-buscar");
     const btnAnterior = document.getElementById("btn-anterior");
     const btnSiguiente = document.getElementById("btn-siguiente");
     const paginaActualSpan = document.getElementById("pagina-actual");
 
-    // Ocultar el buscador al inicio
+    // 🔹 Ocultar el buscador al cargar la página
     buscadorAnimales.classList.add("inactive");
 
     // Función para obtener la imagen de la raza
@@ -123,11 +123,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Evento para mostrar animales cuando se haga clic en el menú
+    // Evento para mostrar animales y buscador al hacer clic en "Animales"
     btnAnimales.addEventListener("click", () => {
         console.log("📢 Click en Animales");
         seccionAnimales.classList.remove("inactive");
-        buscadorAnimales.classList.remove("inactive"); // 🔹 Mostrar el buscador
+        buscadorAnimales.classList.remove("inactive"); // 🔹 Mostrar buscador
         cargarAnimales();
     });
 
@@ -144,8 +144,33 @@ document.addEventListener("DOMContentLoaded", () => {
             animal.id.toString() === query || animal.raza.toLowerCase().includes(query)
         );
 
-        // Mostrar los resultados
-        mostrarPagina(animalesFiltrados);
+        if (animalesFiltrados.length === 0) {
+            alert("No se encontraron animales con ese criterio.");
+            return;
+        }
+
+        // Mostrar los resultados filtrados
+        contenedorAnimales.innerHTML = "";
+        animalesFiltrados.forEach(animal => {
+            const tarjeta = document.createElement("div");
+            tarjeta.classList.add("tarjeta-animal");
+
+            tarjeta.innerHTML = `
+                <img src="${obtenerRutaImagen(animal.raza)}" 
+                     alt="Foto de ${animal.raza}" 
+                     onerror="this.onerror=null; this.src='./assets/img/animal-placeholder.jpg';">
+                <div class="info">
+                    <h3><strong>ID:</strong> ${animal.id}</h3>
+                    <p><strong>Raza:</strong> ${animal.raza}</p>
+                    <p><strong>Edad:</strong> ${animal.edad} años</p>
+                    <p><strong>Peso:</strong> ${animal.peso} kg</p>
+                    <button class="btn-editar" onclick="editarAnimal(${animal.id})">Editar</button>
+                    <button class="btn-eliminar" onclick="eliminarAnimal(${animal.id})">Eliminar</button>
+                </div>
+            `;
+
+            contenedorAnimales.appendChild(tarjeta);
+        });
     });
 });
 
