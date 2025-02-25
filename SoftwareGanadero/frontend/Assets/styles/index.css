@@ -356,6 +356,8 @@ footer {
     background-color: #b92030;
 }
 
+/* ESTILOS DE LO RELACIONADO CON BUSCAR*/
+
 #buscador-animales.inactive {
     display: none;
     justify-content: center; /* Centrar horizontalmente */
@@ -384,4 +386,12 @@ footer {
 
 #btn-buscar:hover {
     background: #1d7730;
+}
+
+.mensaje-busqueda {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #d9534f;
+    margin-top: 20px;
 }

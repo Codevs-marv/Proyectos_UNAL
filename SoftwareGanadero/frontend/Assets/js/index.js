@@ -131,34 +131,40 @@ document.addEventListener("DOMContentLoaded", () => {
         cargarAnimales();
     });
 
-    // Evento para buscar animales
-    btnBuscar.addEventListener("click", () => {
+    // Evento para buscar animales en tiempo real
+    inputBuscar.addEventListener("input", () => {
         const query = inputBuscar.value.trim().toLowerCase();
+
         if (query === "") {
-            alert("Por favor, ingrese un ID o raza para buscar.");
+            mostrarPagina(1); // Si está vacío, mostramos la lista completa
             return;
         }
 
-        // Filtrar animales que coincidan con la búsqueda
+        // Filtrar animales que coincidan con el ID exacto o parcialmente con la raza
         const animalesFiltrados = animalesData.filter(animal =>
             animal.id.toString() === query || animal.raza.toLowerCase().includes(query)
         );
 
-        if (animalesFiltrados.length === 0) {
-            alert("No se encontraron animales con ese criterio.");
-            return;
+        // Mostrar resultados
+        if (animalesFiltrados.length > 0) {
+            mostrarResultadosBusqueda(animalesFiltrados);
+        } else {
+            contenedorAnimales.innerHTML = `<p class="mensaje-busqueda">No se encontraron animales.</p>`;
         }
+    });
 
-        // Mostrar los resultados filtrados
-        contenedorAnimales.innerHTML = "";
-        animalesFiltrados.forEach(animal => {
+    // Función para mostrar los resultados filtrados
+    function mostrarResultadosBusqueda(animales) {
+        contenedorAnimales.innerHTML = ""; // Limpiar contenedor antes de agregar los nuevos resultados
+
+        animales.forEach(animal => {
             const tarjeta = document.createElement("div");
             tarjeta.classList.add("tarjeta-animal");
 
             tarjeta.innerHTML = `
                 <img src="${obtenerRutaImagen(animal.raza)}" 
-                     alt="Foto de ${animal.raza}" 
-                     onerror="this.onerror=null; this.src='./assets/img/animal-placeholder.jpg';">
+                    alt="Foto de ${animal.raza}" 
+                    onerror="this.onerror=null; this.src='./assets/img/animal-placeholder.jpg';">
                 <div class="info">
                     <h3><strong>ID:</strong> ${animal.id}</h3>
                     <p><strong>Raza:</strong> ${animal.raza}</p>
@@ -171,7 +177,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             contenedorAnimales.appendChild(tarjeta);
         });
-    });
+    }
+
 });
 
 // Función para cerrar sesión
@@ -321,6 +328,28 @@ function editarAnimal(id) {
 
 
 // Función para eliminar un animal
-function eliminarAnimal(id) {
-    console.log(`🗑 Eliminar animal con ID: ${id}`);
+async function eliminarAnimal(id) {
+    const confirmacion = confirm("¿Estás seguro de que deseas eliminar este animal?");
+    if (!confirmacion) {
+        console.log("❌ Eliminación cancelada.");
+        return;
+    }
+
+    console.log(`🗑 Eliminando animal con ID: ${id}...`);
+
+    try {
+        const response = await fetch(`http://127.0.0.1:5001/animales/${id}`, {
+            method: "DELETE",
+        });
+
+        if (!response.ok) {
+            throw new Error("No se pudo eliminar el animal.");
+        }
+
+        alert("✅ Animal eliminado correctamente.");
+        btnAnimales.click(); // Recargar lista de animales
+    } catch (error) {
+        console.error("❌ Error al eliminar el animal:", error);
+        alert("Hubo un error al eliminar el animal.");
+    }
 }
