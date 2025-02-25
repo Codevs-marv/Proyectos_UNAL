@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from werkzeug.utils import secure_filename
-from models import db, Animal
+from models import db, Animal, AnimalesEliminados
+from datetime import datetime
 import os
 
 routes = Blueprint("routes", __name__)
@@ -31,6 +32,7 @@ def obtener_animales():
     ]
     return jsonify(animales_lista)
 
+
 # ✅ Buscar un animal por ID
 @routes.route("/animales/<int:id>", methods=["GET"])
 def obtener_animal(id):
@@ -52,6 +54,7 @@ def obtener_animal(id):
         "fechaUltimoParto": animal.fechaUltimoParto
     })
 
+
 # ✅ Añadir un nuevo animal
 @routes.route("/animales", methods=["POST"])
 def agregar_animal():
@@ -72,6 +75,7 @@ def agregar_animal():
     db.session.commit()
 
     return jsonify({"mensaje": "Animal agregado correctamente"}), 201
+
 
 # ✅ Editar un animal
 @routes.route("/animales/<int:id>", methods=["PUT"])
@@ -96,16 +100,35 @@ def editar_animal(id):
     return jsonify({"mensaje": "Animal actualizado correctamente"})
 
 
-# ✅ Eliminar un animal
+
+# ✅ Mover un animal a la papelera en lugar de eliminarlo
 @routes.route("/animales/<int:id>", methods=["DELETE"])
 def eliminar_animal(id):
     animal = Animal.query.get(id)
     if not animal:
         return jsonify({"error": "Animal no encontrado"}), 404
 
-    db.session.delete(animal)
+    # Mover el animal a la tabla AnimalesEliminados
+    animal_eliminado = AnimalesEliminados(
+        id=animal.id,
+        raza=animal.raza,
+        edad=animal.edad,
+        peso=animal.peso,
+        sexo=animal.sexo,
+        marca=animal.marca,
+        proposito=animal.proposito,
+        fechaNacimiento=animal.fechaNacimiento,
+        lote=animal.lote,
+        cantidadPartos=animal.cantidadPartos,
+        fechaUltimoParto=animal.fechaUltimoParto,
+        fecha_eliminacion=datetime.utcnow()
+    )
+    
+    db.session.add(animal_eliminado)
+    db.session.delete(animal)  # Eliminar de la tabla original
     db.session.commit()
-    return jsonify({"mensaje": "Animal eliminado correctamente"})
+
+    return jsonify({"mensaje": "Animal movido a la papelera de reciclaje"}), 200
 
 
 
