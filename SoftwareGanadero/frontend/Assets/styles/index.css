@@ -142,7 +142,7 @@ body {
     color: #2c3e50;
 }
 
-/* Sección de información del usuario */
+/*SECCION INFO DEL USUARIO*/
 .user-info {
     display: flex;
     justify-content: space-between;
@@ -168,7 +168,7 @@ button {
     padding: 10px 15px;
     font-size: var(--md);
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 20px;
     transition: background 0.3s ease;
 }
 
@@ -192,7 +192,7 @@ footer {
     text-align: center;
 }
 
-/* Sección de Animales */
+/* SECCION DE ANIMALES */
 #seccion-animales {
     margin: 20px;
     padding: 20px;
@@ -215,29 +215,30 @@ footer {
     padding-bottom: 50px; /* Espacio para los botones */
 }
 
-/* Tarjeta de cada animal */
+/* TARJETAS DE ANIMALES*/
 .tarjeta-animal {
-    width: 150px; /* 🔹 Tamaño más compacto */
-    height: 120px;
+    width: 200px; /* 🔹 Tamaño más compacto */
+    height: 140px;
     background: #ffffff;
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     padding: 10px;
     text-align: center;
-    transition: transform 0.4s ease-in-out;
+    transition: transform 0.5s ease-in-out;
     overflow: hidden; /* Evita estiramientos */
 }
 
 /* Efecto hover: agranda la tarjeta al pasar el mouse */
 .tarjeta-animal:hover {
-    transform: scale(1.2);
+    transition: 0.9s;
+    transform: scale(1.3);
     height: auto;
 }
 
 /* Imagen del animal */
 .tarjeta-animal img {
     width: 100%;
-    height: 90px; /* 🔹 Tamaño más pequeño */
+    height: 110px; /* 🔹 Tamaño más pequeño */
     object-fit: cover;
     border-radius: 8px;
 }
@@ -253,8 +254,41 @@ footer {
 .tarjeta-animal:hover .info {
     display: block;
 }
+/* Estilos para los botones de las tarjetas */
+.tarjeta-animal .btn-editar,
+.tarjeta-animal .btn-eliminar {
+    padding: 6px 10px;
+    font-size: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
 
-/* Controles de paginación */
+/* Estilo específico para el botón Editar (Verde) */
+.tarjeta-animal .btn-editar {
+    background: #28a745;
+    border-radius: 15px;
+    color: white;
+}
+
+.tarjeta-animal .btn-editar:hover {
+    background: #218838;
+}
+
+/* Estilo específico para el botón Eliminar (Rojo) */
+.tarjeta-animal .btn-eliminar {
+    background: #dc3545;
+    border-radius: 15px;
+    color: white;
+}
+
+.tarjeta-animal .btn-eliminar:hover {
+    background: #c82333;
+}
+
+
+/* CONTROLES DE PAGINACION */
 .pagination {
     position: absolute;
     bottom: 10px;
@@ -271,15 +305,16 @@ footer {
     cursor: pointer;
     background-color: #4CAF50;
     color: white;
-    border-radius: 5px;
+    border-radius: 20px; 
     transition: background 0.3s ease;
 }
 
 .pagination button:hover {
-    background-color: #45a049;
+    background-color: #328336;
 }
 
-/* Estilos generales del modal */
+
+/* ESTILOS DEL MODAL (FORMULARIO DE EDICION) */
 .modal {
     position: fixed;
     top: 50%;
@@ -356,20 +391,21 @@ footer {
     background-color: #b92030;
 }
 
+
 /* ESTILOS DE LO RELACIONADO CON BUSCAR*/
 
 #buscador-animales.inactive {
     display: none;
     justify-content: center; /* Centrar horizontalmente */
     gap: 10px; /* Espacio entre input y botón */
-    margin-bottom: 35px; /* Espacio con las tarjetas */
+    margin-bottom: 100px; /* Espacio con las tarjetas */
 }
 
 #buscar-animal {
     width: 250px;
     padding: 8px;
     border: 1px solid #b8b7b7;
-    border-radius: 10px;
+    border-radius: 20px;
     font-size: 16px;
 }
 
@@ -378,7 +414,7 @@ footer {
     color: white;
     border-radius: 20px;
     padding: 8px 15px;
-    border-radius: 5px;
+    border-radius: 20px;
     font-size: 16px;
     cursor: pointer;
     transition: background 0.3s;
