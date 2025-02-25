@@ -95,6 +95,7 @@ def editar_animal(id):
     db.session.commit()
     return jsonify({"mensaje": "Animal actualizado correctamente"})
 
+
 # ✅ Eliminar un animal
 @routes.route("/animales/<int:id>", methods=["DELETE"])
 def eliminar_animal(id):

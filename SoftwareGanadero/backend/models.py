@@ -67,6 +67,22 @@ class Animal(db.Model):
         }
 
 
+class AnimalesEliminados(db.Model):
+    __tablename__ = "animales_eliminados"
+
+    id = db.Column(db.Integer, primary_key=True)
+    raza = db.Column(db.String(50), nullable=False)
+    edad = db.Column(db.Integer, nullable=False)
+    peso = db.Column(db.Float, nullable=False)
+    sexo = db.Column(db.String(10), nullable=False)
+    marca = db.Column(db.String(10), nullable=False)
+    proposito = db.Column(db.String(20), nullable=False)
+    fechaNacimiento = db.Column(db.Date, nullable=False)
+    lote = db.Column(db.String(20), nullable=False)
+    cantidadPartos = db.Column(db.Integer, nullable=True)
+    fechaUltimoParto = db.Column(db.Date, nullable=True)
+    fecha_eliminacion = db.Column(db.DateTime, default=datetime.utcnow)  # Se guarda la fecha de eliminación
+
 
 
 class Insumo(db.Model):
