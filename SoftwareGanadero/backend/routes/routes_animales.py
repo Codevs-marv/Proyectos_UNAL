@@ -131,6 +131,49 @@ def eliminar_animal(id):
     return jsonify({"mensaje": "Animal movido a la papelera de reciclaje"}), 200
 
 
+# ✅ Restaurar un animal desde la papelera
+@routes.route("/animales/restaurar/<int:id>", methods=["PUT"])
+def restaurar_animal(id):
+    animal = AnimalesEliminados.query.get(id)
+    if not animal:
+        return jsonify({"error": "Animal no encontrado en la papelera"}), 404
+
+    # Restaurar el animal a la tabla principal
+    animal_restaurado = Animal(
+        id=animal.id,
+        raza=animal.raza,
+        edad=animal.edad,
+        peso=animal.peso,
+        sexo=animal.sexo,
+        marca=animal.marca,
+        proposito=animal.proposito,
+        fechaNacimiento=animal.fechaNacimiento,
+        lote=animal.lote,
+        cantidadPartos=animal.cantidadPartos,
+        fechaUltimoParto=animal.fechaUltimoParto
+    )
+
+    db.session.add(animal_restaurado)
+    db.session.delete(animal)  # Eliminar de la papelera
+    db.session.commit()
+
+    return jsonify({"mensaje": "Animal restaurado correctamente"}), 200
+
+
+# ✅ Eliminacion automatica despues de 3 dias
+@routes.route("/eliminar_definitivo", methods=["DELETE"])
+def eliminar_definitivamente():
+    from datetime import datetime, timedelta
+
+    fecha_limite = datetime.utcnow() - timedelta(days=3)
+    
+    # Eliminar animales que llevan más de 3 días en la papelera
+    AnimalesEliminados.query.filter(AnimalesEliminados.fecha_eliminacion < fecha_limite).delete()
+    db.session.commit()
+
+    return jsonify({"mensaje": "Animales eliminados permanentemente"}), 200
+
+
 
 
 # Configuración para la carpeta donde se guardarán las imágenes
