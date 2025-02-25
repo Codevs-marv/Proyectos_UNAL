@@ -38,36 +38,23 @@
         <h2>AgroControl</h2>
       </header>
 
-    <!-- Info del usuario y menú de perfil -->
-    <div class="user-info">
-      <!-- Info del usuario -->
-      <p id="usuario-info"></p>
-      <div class="user-actions">
-          <!-- Ícono de cerrar sesión con tooltip -->
-          <div class="cerrar-sesion-container" onclick="cerrarSesion()">
-              <img src="./assets/img/icons/close_session.png" alt="Cerrar sesión" class="icono-cerrar-sesion">
-              <span class="tooltip">Cerrar sesión</span>
-          </div>
-
-          <!-- Ícono de perfil con tooltip -->
-          <div class="perfil-container">
-              <img src="./assets/img/icons/profile.png" alt="Perfil" class="icono-perfil" id="btn-perfil">
-              <span class="tooltip-perfil">Mi perfil</span>
-          </div>
-
-          <!-- Menú desplegable del perfil -->
-          <div id="menu-perfil" class="menu-perfil inactive">
-              <ul>
-                  <li onclick="verPerfil()">👤 Mi Perfil</li>
-                  <li onclick="cambiarContrasena()">🔑 Cambiar Contraseña</li>
-                  <li onclick="cerrarSesion()">🚪 Cerrar Sesión</li>
-              </ul>
-          </div>
+      <!-- Info del usuario y menú de perfil -->
+      <div class="user-info">
+        <p id="usuario-info"></p>
+        <div class="user-actions">
+            <img src="./assets/img/icons/close_session.png" alt="Cerrar sesión" class="icono-cerrar-sesion" onclick="cerrarSesion()">
+            <img src="./assets/img/icons/profile.png" alt="Perfil" class="icono-perfil" id="btn-perfil">
+            
+            <!-- Menú desplegable del perfil -->
+            <div id="menu-perfil" class="menu-perfil inactive">
+                <ul>
+                    <li onclick="verPerfil()">👤 Mi Perfil</li>
+                    <li onclick="cambiarContrasena()">🔑 Cambiar Contraseña</li>
+                    <li onclick="cerrarSesion()">🚪 Cerrar Sesión</li>
+                </ul>
+            </div>
+        </div>
       </div>
-    </div>
-
-
-
 
 
 

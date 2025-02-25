@@ -301,7 +301,7 @@ body {
 /* MENU DESPLEGABLE DE PERFIL*/
 .menu-perfil {
     position: absolute;
-    top: 30px; /* mover verticalmente */
+    top: 0px; /* mover verticalmente */
     right: 50px;
     background: white;
     border-radius: 15px;
