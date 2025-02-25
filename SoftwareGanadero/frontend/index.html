@@ -38,14 +38,24 @@
         <h2>AgroControl</h2>
       </header>
 
-      <!-- Info del usuario y botón de cierre de sesión -->
+      <!-- Info del usuario y menú de perfil -->
       <div class="user-info">
         <p id="usuario-info"></p>
         <div class="user-actions">
             <img src="./assets/img/icons/close_session.png" alt="Cerrar sesión" class="icono-cerrar-sesion" onclick="cerrarSesion()">
-            <img src="./assets/img/icons/profile.png" alt="Perfil" class="icono-perfil">
+            <img src="./assets/img/icons/profile.png" alt="Perfil" class="icono-perfil" id="btn-perfil">
+            
+            <!-- Menú desplegable del perfil -->
+            <div id="menu-perfil" class="menu-perfil inactive">
+                <ul>
+                    <li onclick="verPerfil()">👤 Mi Perfil</li>
+                    <li onclick="cambiarContrasena()">🔑 Cambiar Contraseña</li>
+                    <li onclick="cerrarSesion()">🚪 Cerrar Sesión</li>
+                </ul>
+            </div>
         </div>
       </div>
+
 
 
     

@@ -436,9 +436,6 @@ function mostrarFormularioAgregar() {
 }
 
 
-    
-
-
 
 // FUNCION PARA ENVIAR LOS DATOS AL BACKEND DE AGREGAR ANIMAL
 async function agregarAnimal() {
@@ -480,4 +477,40 @@ async function agregarAnimal() {
         console.error("❌ Error al agregar el animal:", error);
         alert("Hubo un error al agregar el animal.");
     }
+}
+
+
+
+// 📌 FUNCIONALIDAD DEL MENU PERFIL
+document.addEventListener("DOMContentLoaded", () => {
+    const btnPerfil = document.getElementById("btn-perfil");
+    const menuPerfil = document.getElementById("menu-perfil");
+
+    // Alternar el menú al hacer clic en el icono de perfil
+    btnPerfil.addEventListener("click", () => {
+        menuPerfil.classList.toggle("active");
+    });
+
+    // Ocultar el menú si se hace clic fuera de él
+    document.addEventListener("click", (event) => {
+        if (!btnPerfil.contains(event.target) && !menuPerfil.contains(event.target)) {
+            menuPerfil.classList.remove("active");
+        }
+    });
+});
+
+// 📌 Funciones del Menú de Perfil
+function verPerfil() {
+    alert("🔍 Aquí se mostrará la información del usuario.");
+}
+
+function cambiarContrasena() {
+    alert("🔑 Aquí se podrá cambiar la contraseña.");
+}
+
+// 📌 Función para cerrar sesión (ya existente)
+function cerrarSesion() {
+    console.log("👋 Cerrando sesión...");
+    sessionStorage.removeItem("usuario");
+    window.location.href = "login.html";
 }

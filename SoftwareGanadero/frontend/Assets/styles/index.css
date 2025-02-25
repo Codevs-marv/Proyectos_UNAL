@@ -181,7 +181,7 @@ body {
     transform: scale(1.3); /* Efecto de agrandado al pasar el mouse */
 }
 
-/* Contenedor del botón e ícono */
+/* CONTENEDOR ICONO PERFIL*/
 .user-actions {
     display: flex;
     align-items: center;
@@ -194,6 +194,46 @@ body {
     height: 40px;
     border-radius: 50%;
     object-fit: cover;
+}
+
+/* Menú desplegable del perfil */
+.menu-perfil {
+    position: absolute;
+    top: 60px; /* Ajusta según el diseño */
+    right: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    width: 180px;
+    display: none; /* Oculto por defecto */
+    z-index: 1000;
+}
+
+/* Mostrar el menú cuando esté activo */
+.menu-perfil.active {
+    display: block;
+}
+
+/* Estilos de los ítems del menú */
+.menu-perfil ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu-perfil li {
+    padding: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background 0.3s ease-in-out;
+}
+
+.menu-perfil li:hover {
+    background: #f4f4f4;
 }
 
 /* Footer */
