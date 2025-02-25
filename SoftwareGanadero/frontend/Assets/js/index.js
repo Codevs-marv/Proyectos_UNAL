@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (usuarioJSON) {
         try {
             const usuario = JSON.parse(usuarioJSON);
-            usuarioInfo.textContent = `Bienvenido, ${usuario.nombre} (${usuario.rol})`;
+            usuarioInfo.textContent = ` ${usuario.nombre} (${usuario.rol})`;
         } catch (error) {
             console.error("❌ Error al parsear JSON:", error);
             sessionStorage.removeItem("usuario");
@@ -41,6 +41,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnAnterior = document.getElementById("btn-anterior");
     const btnSiguiente = document.getElementById("btn-siguiente");
     const paginaActualSpan = document.getElementById("pagina-actual");
+    const btnAgregarAnimal = document.getElementById("btn-agregar-animal"); // 🔹 Botón "Agregar Animal"
+    btnAgregarAnimal.addEventListener("click", mostrarFormularioAgregar);
+
 
     // 🔹 Ocultar el buscador al cargar la página
     buscadorAnimales.classList.add("inactive");
@@ -327,7 +330,7 @@ function editarAnimal(id) {
 
 
 
-// Función para eliminar un animal
+// FUNCION PARA ELIMINAR ANIMAL
 async function eliminarAnimal(id) {
     const confirmacion = confirm("¿Estás seguro de que deseas eliminar este animal?");
     if (!confirmacion) {
@@ -351,5 +354,130 @@ async function eliminarAnimal(id) {
     } catch (error) {
         console.error("❌ Error al eliminar el animal:", error);
         alert("Hubo un error al eliminar el animal.");
+    }
+}
+
+
+// FUNCION PARA DESPLEGAR FORMULARIO AGREGAR ANIMAL
+function mostrarFormularioAgregar() {
+    console.log("➕ Mostrando formulario para agregar un nuevo animal");
+
+    // Si ya existe un modal abierto, lo eliminamos antes de crear otro
+    const modalExistente = document.querySelector(".modal");
+    if (modalExistente) {
+        modalExistente.remove();
+    }
+
+    // Crear el modal de agregar
+    const modal = document.createElement("div");
+    modal.classList.add("modal", "show");
+
+    modal.innerHTML = `
+        <div class="modal-content">
+            <h2>Agregar Nuevo Animal</h2>
+
+            <label>Sexo:</label>
+            <select id="add-sexo">
+                <option value="Macho">Macho</option>
+                <option value="Hembra">Hembra</option>
+            </select>
+
+            <label>Marca:</label>
+            <select id="add-marca">
+                <option value="BHQZ">BHQZ</option>
+                <option value="PP8">PP8</option>
+            </select>
+
+            <label>Edad:</label>
+            <input type="number" id="add-edad">
+
+            <label>Raza:</label>
+            <input type="text" id="add-raza">
+
+            <label>Peso:</label>
+            <input type="number" id="add-peso">
+
+            <label>Propósito:</label>
+            <select id="add-proposito">
+                <option value="Lecheria">Lechería</option>
+                <option value="Cria">Cría</option>
+                <option value="DobleProposito">Doble Propósito</option>
+            </select>
+
+            <label>Fecha de Nacimiento:</label>
+            <input type="date" id="add-fechaNacimiento">
+
+            <label>Lote:</label>
+            <input type="text" id="add-lote">
+
+            <label>Cantidad de Partos:</label>
+            <input type="number" id="add-cantidadPartos">
+
+            <label>Fecha Último Parto:</label>
+            <input type="date" id="add-fechaUltimoParto">
+
+            <div class="modal-buttons">
+                <button id="guardar-animal">Guardar</button>
+                <button id="cerrar-modal-agregar">Cancelar</button>
+            </div>
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    // Evento para cerrar el modal
+    document.getElementById("cerrar-modal-agregar").addEventListener("click", () => {
+        console.log("🛑 Cancelando agregar animal.");
+        modal.remove();
+    });
+
+    // Evento para guardar el nuevo animal
+    document.getElementById("guardar-nuevo-animal").addEventListener("click", agregarAnimal);
+}
+
+
+    
+
+
+
+// FUNCION PARA ENVIAR LOS DATOS AL BACKEND DE AGREGAR ANIMAL
+async function agregarAnimal() {
+    console.log("💾 Guardando nuevo animal...");
+
+    const nuevoAnimal = {
+        sexo: document.getElementById("new-sexo").value,
+        marca: document.getElementById("new-marca").value,
+        edad: parseInt(document.getElementById("new-edad").value),
+        raza: document.getElementById("new-raza").value.trim(),
+        peso: parseFloat(document.getElementById("new-peso").value),
+        proposito: document.getElementById("new-proposito").value,
+        fechaNacimiento: document.getElementById("new-fechaNacimiento").value,
+        lote: document.getElementById("new-lote").value.trim(),
+        cantidadPartos: parseInt(document.getElementById("new-cantidadPartos").value) || 0,
+        fechaUltimoParto: document.getElementById("new-fechaUltimoParto").value || null
+    };
+
+    if (!nuevoAnimal.raza || isNaN(nuevoAnimal.edad) || isNaN(nuevoAnimal.peso) || !nuevoAnimal.fechaNacimiento || !nuevoAnimal.lote) {
+        alert("⚠ Por favor, complete todos los campos obligatorios.");
+        return;
+    }
+
+    try {
+        const response = await fetch("http://127.0.0.1:5001/animales", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(nuevoAnimal)
+        });
+
+        if (!response.ok) {
+            throw new Error("No se pudo agregar el animal.");
+        }
+
+        alert("✅ Animal agregado correctamente.");
+        document.querySelector(".modal").remove();
+        cargarAnimales(); // Recargar la lista
+    } catch (error) {
+        console.error("❌ Error al agregar el animal:", error);
+        alert("Hubo un error al agregar el animal.");
     }
 }

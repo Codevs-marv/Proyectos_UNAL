@@ -145,13 +145,14 @@ body {
 /*SECCION INFO DEL USUARIO*/
 .user-info {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between; /* Distribuye los elementos */
     background-color: var(--white);
     padding: 10px 20px;
     margin: 20px;
     border-radius: 5px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: none;
 }
 
 #usuario-info {
@@ -160,20 +161,39 @@ body {
     font-weight: bold;
 }
 
-/* Botón de cerrar sesión */
-button {
-    background-color: rgb(204, 35, 35);
-    border: none;
-    color: var(--white);
-    padding: 10px 15px;
-    font-size: var(--md);
-    cursor: pointer;
-    border-radius: 20px;
-    transition: background 0.3s ease;
+
+/* ICONO CERRAR SESION */
+.user-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Espacio entre los iconos */
 }
 
-button:hover {
-    background-color: #ff0800;
+/* Ícono de cerrar sesión */
+.icono-cerrar-sesion {
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.icono-cerrar-sesion:hover {
+    transform: scale(1.3); /* Efecto de agrandado al pasar el mouse */
+}
+
+/* Contenedor del botón e ícono */
+.user-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Espacio entre el botón y el icono */
+}
+
+/* Ícono de perfil */
+.icono-perfil {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 /* Footer */
@@ -393,6 +413,32 @@ footer {
 
 
 /* ESTILOS DE LO RELACIONADO CON BUSCAR*/
+/* Contenedor de búsqueda y botón agregar */
+
+.search-container {
+    display: flex;
+    justify-content: space-between; /* Distribuye los elementos */
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px;
+}
+
+/* Botón de agregar (Verde) */
+#btn-agregar-animal {
+    background-color: #228b3c; 
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease;
+    margin-left: auto; /* Mueve el botón a la derecha */
+}
+
+#btn-agregar-animal:hover {
+    background-color: #27ae60;
+}
 
 #buscador-animales.inactive {
     display: none;
@@ -402,7 +448,7 @@ footer {
 }
 
 #buscar-animal {
-    width: 250px;
+    width: 150px;
     padding: 8px;
     border: 1px solid #b8b7b7;
     border-radius: 20px;
@@ -410,10 +456,10 @@ footer {
 }
 
 #btn-buscar {
-    background: #28a745;
+    background: #3371ce;
     color: white;
     border-radius: 20px;
-    padding: 8px 15px;
+    padding: 8px 10px;
     border-radius: 20px;
     font-size: 16px;
     cursor: pointer;
@@ -421,7 +467,7 @@ footer {
 }
 
 #btn-buscar:hover {
-    background: #1d7730;
+    background: #210aeb;
 }
 
 .mensaje-busqueda {
@@ -430,4 +476,65 @@ footer {
     font-weight: bold;
     color: #d9534f;
     margin-top: 20px;
+}
+
+/* BOTON AGREGAR ANIMAL */
+.btn-agregar {
+    display: block;
+    margin: 10px auto;
+    padding: 10px 15px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #2aa747;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-agregar:hover {
+    background-color: #218838;
+}
+
+/* DISEÑO MODAL DE AGREGAR ANIMAL*/
+
+/* Contenedor de los botones en el modal */
+.modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 25px; 
+    margin-top: 15px;
+}
+
+/* Botón de guardar (Verde) */
+.modal-buttons #guardar-animal {
+    background-color: #18b43a;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease;
+}
+
+.modal-buttons #guardar-animal:hover {
+    background-color: #23743d;
+}
+
+/* Botón de cancelar (Rojo) */
+.modal-buttons #cerrar-modal-agregar {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease;
+}
+
+.modal-buttons #cerrar-modal-agregar:hover {
+    background-color: #b13426;
 }

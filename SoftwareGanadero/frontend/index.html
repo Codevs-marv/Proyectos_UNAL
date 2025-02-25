@@ -41,21 +41,27 @@
       <!-- Info del usuario y botón de cierre de sesión -->
       <div class="user-info">
         <p id="usuario-info"></p>
-        <button onclick="cerrarSesion()">Cerrar sesión</button>
+        <div class="user-actions">
+            <img src="./assets/img/icons/close_session.png" alt="Cerrar sesión" class="icono-cerrar-sesion" onclick="cerrarSesion()">
+            <img src="./assets/img/icons/profile.png" alt="Perfil" class="icono-perfil">
+        </div>
       </div>
+
+
     
     <!-- Sección donde se mostrará el inventario de animales -->
     <section id="seccion-animales" class="inactive">
         <h2>Inventario de Animales</h2>
 
         <!-- Campo de búsqueda y Agregar animales -->
-        <div id="buscador-animales" class="inactive">
-          <button id="btn-agregar-animal" class="btn-agregar">➕ Agregar Animal</button>
-
-          <input type="text" id="buscar-animal" placeholder="  Buscar por ID o raza...">
-          <button id="btn-buscar">Buscar</button>
+        <!-- Contenedor del buscador y el botón agregar -->
+        <div id="buscador-animales" class="inactive search-container">
+          <input type="text" id="buscar-animal" placeholder="Buscar por ID o raza...">
+          <button id="btn-buscar"> 🔍</button>
+          <button id="btn-agregar-animal"> ✚ Agregar Animal</button>
         </div>
 
+        
         
         <!-- Contenedor de animales-->
         <div class="animales-container"></div>
