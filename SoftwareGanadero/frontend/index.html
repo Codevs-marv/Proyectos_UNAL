@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Home</title>
+  <title>AgroControl</title>
   <link rel="stylesheet" href="./assets/styles/index.css">
 </head>
 <body>
@@ -66,9 +66,6 @@
     </div>
 
 
-
-
-    
     <!-- Sección donde se mostrará el inventario de animales -->
     <section id="seccion-animales" class="inactive">
         <h2>Inventario de Animales</h2>
@@ -81,12 +78,9 @@
           <button id="btn-agregar-animal"> ✚ Agregar Animal</button>
         </div>
 
-        
-        
         <!-- Contenedor de animales-->
         <div class="animales-container"></div>
 
-       
         <!-- Controles de paginación -->
         <div class="pagination">
           <button id="btn-anterior">Anterior</button>
@@ -101,5 +95,11 @@
 
   <!-- Importar el script para manejar sesiones -->
   <script src="./assets/js/index.js"></script>
+
+  <!-- Pantalla de carga -->
+  <div id="pantalla-carga" class="pantalla-carga">
+    <div class="loader"></div>
+  </div>
+
 </body>
 </html>

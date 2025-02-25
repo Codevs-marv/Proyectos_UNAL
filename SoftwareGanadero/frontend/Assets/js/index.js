@@ -514,3 +514,31 @@ function cerrarSesion() {
     sessionStorage.removeItem("usuario");
     window.location.href = "login.html";
 }
+
+
+// L O A D E R
+// Función para mostrar el loader
+function mostrarLoader() {
+    document.getElementById("pantalla-carga").classList.remove("oculto");
+}
+
+// Función para ocultar el loader
+function ocultarLoader() {
+    setTimeout(() => {
+        document.getElementById("pantalla-carga").classList.add("oculto");
+    }, 1000); // Se oculta después de 1 segundo (ajustable)
+}
+
+// Esperar a que el contenido de la página cargue para ocultar el loader
+window.addEventListener("load", ocultarLoader);
+
+// Modificar la función cerrarSesion para que muestre el loader antes de salir
+function cerrarSesion() {
+    console.log("👋 Cerrando sesión...");
+    mostrarLoader(); // 🔹 Mostrar el loader
+
+    setTimeout(() => {
+        sessionStorage.removeItem("usuario");
+        window.location.href = "login.html"; // Redirige al login después de un momento
+    }, 1500); // 🔹 Simulamos un pequeño retraso
+}
