@@ -470,31 +470,37 @@ function editarAnimal(id) {
 
 
 // FUNCION PARA ELIMINAR ANIMAL
+// ✅ Función para eliminar un animal (lo mueve a la papelera)
 async function eliminarAnimal(id) {
-    const confirmacion = confirm("¿Estás seguro de que deseas eliminar este animal?");
-    if (!confirmacion) {
-        console.log("❌ Eliminación cancelada.");
-        return;
-    }
-
     console.log(`🗑 Eliminando animal con ID: ${id}...`);
+
+    if (!confirm("⚠ ¿Seguro que quieres eliminar este animal?")) return;
 
     try {
         const response = await fetch(`http://127.0.0.1:5001/animales/${id}`, {
-            method: "DELETE",
+            method: "DELETE"
         });
 
         if (!response.ok) {
-            throw new Error("No se pudo eliminar el animal.");
+            throw new Error("❌ No se pudo eliminar el animal.");
         }
 
-        alert("✅ Animal eliminado correctamente.");
-        btnAnimales.click(); // Recargar lista de animales
+        alert("✅ Animal eliminado correctamente. Ahora está en la papelera.");
+
+        // 🔹 Verifica si btnAnimales está definido antes de hacer click
+        const btnAnimales = document.getElementById("btn-animales");
+        if (btnAnimales) {
+            btnAnimales.click(); // Recargar la lista de animales
+        } else {
+            console.warn("⚠ btnAnimales no está definido. No se recargó la lista de animales.");
+        }
+
     } catch (error) {
         console.error("❌ Error al eliminar el animal:", error);
         alert("Hubo un error al eliminar el animal.");
     }
 }
+
 
 
 // FUNCION PARA DESPLEGAR FORMULARIO AGREGAR ANIMAL

@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from werkzeug.utils import secure_filename
 from models import db, Animal, AnimalesEliminados
+from flask_cors import cross_origin
 from datetime import datetime
 import os
 
@@ -102,13 +103,13 @@ def editar_animal(id):
 
 # ✅ Obtener la lista de animales eliminados (papelera de reciclaje)
 @routes.route("/papelera", methods=["GET"])
+@cross_origin()  # 🔹 Permitir CORS en esta ruta específica
 def obtener_papelera():
     animales_eliminados = Animal.query.filter_by(eliminado=True).all()
     
     if not animales_eliminados:
-        return jsonify([])  # Devuelve una lista vacía si no hay datos
-    
-    # Convertir la lista de objetos en un formato JSON
+        return jsonify([]), 200
+
     resultado = [
         {
             "id": animal.id,
@@ -119,7 +120,6 @@ def obtener_papelera():
         }
         for animal in animales_eliminados
     ]
-    
     return jsonify(resultado), 200
 
 

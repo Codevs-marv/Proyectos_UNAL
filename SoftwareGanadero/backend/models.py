@@ -48,7 +48,7 @@ class Animal(db.Model):
     lote = db.Column(db.String(50), nullable=False)
     cantidadPartos = db.Column(db.Integer, nullable=True)
     fechaUltimoParto = db.Column(db.Date, nullable=True)
-    #foto_url = db.Column(db.String(255), nullable=True)  # Nueva columna para la imagen
+    eliminado = db.Column(db.Boolean, default=False)
 
     def to_json(self):
         return {
