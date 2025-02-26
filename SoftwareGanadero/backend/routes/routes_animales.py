@@ -100,6 +100,28 @@ def editar_animal(id):
     return jsonify({"mensaje": "Animal actualizado correctamente"})
 
 
+# ✅ Obtener la lista de animales eliminados (papelera de reciclaje)
+@routes.route("/papelera", methods=["GET"])
+def obtener_papelera():
+    animales_eliminados = Animal.query.filter_by(eliminado=True).all()
+    
+    if not animales_eliminados:
+        return jsonify([])  # Devuelve una lista vacía si no hay datos
+    
+    # Convertir la lista de objetos en un formato JSON
+    resultado = [
+        {
+            "id": animal.id,
+            "raza": animal.raza,
+            "sexo": animal.sexo,
+            "peso": animal.peso,
+            "edad": animal.edad
+        }
+        for animal in animales_eliminados
+    ]
+    
+    return jsonify(resultado), 200
+
 
 # ✅ Mover un animal a la papelera en lugar de eliminarlo
 @routes.route("/animales/<int:id>", methods=["DELETE"])
