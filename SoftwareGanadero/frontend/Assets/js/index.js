@@ -208,27 +208,32 @@ document.addEventListener("DOMContentLoaded", () => {
     // 📌 Mostrar la papelera de reciclaje
     btnPapelera.addEventListener("click", async () => {
         console.log("🗑️ Mostrando papelera de reciclaje...");
+    
+        // 🔹 Ocultar la sección de animales
+        seccionAnimales.classList.add("inactive");
+    
+        // 🔹 Mostrar la papelera
         seccionPapelera.classList.remove("inactive");
-
+    
         try {
             const response = await fetch("http://127.0.0.1:5001/papelera");
             if (!response.ok) throw new Error("Error al obtener los animales eliminados");
-
+    
             const animalesEliminados = await response.json();
             console.log("🔄 Animales en la papelera:", animalesEliminados);
-
+    
             papeleraContainer.innerHTML = "";
-
+    
             if (animalesEliminados.length === 0) {
                 papeleraContainer.innerHTML = "<p>No hay animales en la papelera.</p>";
                 return;
             }
-
+    
             // Crear tarjetas para cada animal eliminado
             animalesEliminados.forEach(animal => {
                 const tarjeta = document.createElement("div");
                 tarjeta.classList.add("tarjeta-animal");
-
+    
                 tarjeta.innerHTML = `
                     <img src="./assets/img/animal-placeholder.jpg" alt="Animal eliminado">
                     <div class="info">
@@ -237,14 +242,15 @@ document.addEventListener("DOMContentLoaded", () => {
                         <button class="btn-restaurar" onclick="restaurarAnimal(${animal.id})">Restaurar</button>
                     </div>
                 `;
-
+    
                 papeleraContainer.appendChild(tarjeta);
             });
-
+    
         } catch (error) {
             console.error("❌ Error al cargar la papelera:", error);
         }
     });
+    
 
     // 📌 Restaurar un animal desde la papelera
     window.restaurarAnimal = async (id) => {
