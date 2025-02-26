@@ -726,9 +726,13 @@ footer {
     background: white;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    min-height: 80vh;
+    position: relative;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
 }
 
+/* Contenedor de animales eliminados */
 .papelera-container {
     display: flex;
     flex-wrap: wrap;
@@ -736,14 +740,35 @@ footer {
     justify-content: center;
 }
 
+/* Botón de restaurar */
 .btn-restaurar {
-    background-color: #28a745;
+    background: #f39c12;
     color: white;
-    border-radius: 5px;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease;
 }
 
-.btn-eliminar-def {
-    background-color: #dc3545;
+.btn-restaurar:hover {
+    background: #e67e22;
+}
+
+/* Botón de vaciar papelera */
+#btn-vaciar-papelera {
+    background: #c0392b;
     color: white;
-    border-radius: 5px;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 20px;
+    transition: background 0.3s ease;
+}
+
+#btn-vaciar-papelera:hover {
+    background: #a93226;
 }
