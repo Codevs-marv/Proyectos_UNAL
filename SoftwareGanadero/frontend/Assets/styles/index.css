@@ -754,7 +754,7 @@ footer {
     background: #f39c12;
     color: white;
     border: none;
-    padding: 8px 12px;
+    padding: 5px 12px;
     border-radius: 10px;
     cursor: pointer;
     font-size: 14px;
@@ -762,12 +762,12 @@ footer {
 }
 
 .btn-restaurar:hover {
-    background: #e67e22;
+    background: #d47420;
 }
 
 /* Botón de vaciar papelera */
 #btn-vaciar-papelera {
-    background: #c0392b;
+    background: #d83b2a;
     color: white;
     border: none;
     padding: 10px 15px;
@@ -779,5 +779,5 @@ footer {
 }
 
 #btn-vaciar-papelera:hover {
-    background: #a93226;
+    background: #fd1702;
 }
