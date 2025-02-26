@@ -720,8 +720,7 @@ footer {
 }
 
 /* SECCIÓN DE PAPELERA */
-#seccion-papelera.inactive {
-    display: none;
+#seccion-papelera {
     margin: 20px;
     padding: 20px;
     background: white;
@@ -729,7 +728,13 @@ footer {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     position: relative;
     min-height: 60vh;
+    display: none; /* Cambia esto a flex cuando se muestre */
     flex-direction: column;
+}
+
+/* Mostrar la papelera cuando se active */
+#seccion-papelera.active {
+    display: flex;
 }
 
 /* Contenedor de animales eliminados */
@@ -738,6 +743,10 @@ footer {
     flex-wrap: wrap;
     gap: 20px;
     justify-content: center;
+    background: white; /* 🔹 Asegura el fondo blanco */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 /* Botón de restaurar */

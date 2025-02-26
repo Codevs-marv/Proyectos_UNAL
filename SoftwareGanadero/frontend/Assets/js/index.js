@@ -233,13 +233,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 tarjeta.classList.add("tarjeta-animal");
     
                 tarjeta.innerHTML = `
-                    <img src="./assets/img/animal-placeholder.jpg" alt="Animal eliminado">
+                    <img src="${obtenerRutaImagen(animal.raza)}" alt="Foto de ${animal.raza}"
+                        onerror="this.onerror=null; this.src='./assets/img/animal-placeholder.jpg';">
                     <div class="info">
                         <h3><strong>ID:</strong> ${animal.id}</h3>
                         <p><strong>Raza:</strong> ${animal.raza}</p>
                         <button class="btn-restaurar" onclick="restaurarAnimal(${animal.id})">Restaurar</button>
                     </div>
                 `;
+
 
                 papeleraContainer.appendChild(tarjeta);
             });
