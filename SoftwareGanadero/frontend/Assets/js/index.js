@@ -193,7 +193,7 @@ function cerrarSesion() {
 
 
 // FUNCION PARA MANEJAR LA PAPELERA DE RECICLAJE
-// FUNCION PARA MANEJAR LA PAPELERA DE RECICLAJE
+// ✅ Corrección: No quitar la clase "inactive" al inicio
 document.addEventListener("DOMContentLoaded", () => {
     const btnPapelera = document.getElementById("btn-papelera");
     const seccionPapelera = document.getElementById("seccion-papelera");
@@ -202,17 +202,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!btnVaciarPapelera) {
         console.error("❌ Error: No se encontró el botón 'Vaciar Papelera'.");
-        return; // Detener ejecución si el botón no existe
+        return;
     }
 
-    // 📌 Mostrar la papelera de reciclaje
+    // 📌 Mostrar la papelera de reciclaje SOLO cuando se haga clic en el botón
     btnPapelera.addEventListener("click", async () => {
         console.log("🗑️ Mostrando papelera de reciclaje...");
     
-        // 🔹 Ocultar la sección de animales
-        seccionAnimales.classList.add("inactive");
-    
-        // 🔹 Mostrar la papelera
+        // 🔹 Ocultar la sección de animales y mostrar la papelera
+        document.getElementById("seccion-animales").classList.add("inactive");
         seccionPapelera.classList.remove("inactive");
     
         try {
@@ -223,12 +221,12 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("🔄 Animales en la papelera:", animalesEliminados);
     
             papeleraContainer.innerHTML = "";
-    
+
             if (animalesEliminados.length === 0) {
                 papeleraContainer.innerHTML = "<p>No hay animales en la papelera.</p>";
                 return;
             }
-    
+
             // Crear tarjetas para cada animal eliminado
             animalesEliminados.forEach(animal => {
                 const tarjeta = document.createElement("div");
@@ -242,7 +240,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <button class="btn-restaurar" onclick="restaurarAnimal(${animal.id})">Restaurar</button>
                     </div>
                 `;
-    
+
                 papeleraContainer.appendChild(tarjeta);
             });
     
@@ -250,8 +248,8 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error("❌ Error al cargar la papelera:", error);
         }
     });
-    
 
+    
     // 📌 Restaurar un animal desde la papelera
     window.restaurarAnimal = async (id) => {
         console.log(`🔄 Restaurando animal con ID: ${id}...`);
