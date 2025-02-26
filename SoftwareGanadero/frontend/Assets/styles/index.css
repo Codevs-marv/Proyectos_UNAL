@@ -242,7 +242,7 @@ body {
 .user-actions {
     display: flex;
     align-items: center;
-    gap: 15px; /* Espacio entre el botón y el icono */
+    gap: 5px; /* Espacio entre el botón y el icono */
 }
 
 /* Ícono de perfil */
@@ -618,6 +618,22 @@ footer {
     color: #d9534f;
     margin-top: 20px;
 }
+/* FILTRO DE BUSQUEDA */
+.filtros-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.filtros-container select,
+.filtros-container button {
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
 
 /* BOTON AGREGAR ANIMAL */
 .btn-agregar {

@@ -49,9 +49,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnAnterior = document.getElementById("btn-anterior");
     const btnSiguiente = document.getElementById("btn-siguiente");
     const paginaActualSpan = document.getElementById("pagina-actual");
-    const btnAgregarAnimal = document.getElementById("btn-agregar-animal"); // 🔹 Botón "Agregar Animal"
-    btnAgregarAnimal.addEventListener("click", mostrarFormularioAgregar);
+    const btnAgregarAnimal = document.getElementById("btn-agregar-animal");
 
+    // Filtros
+    const filtroSexo = document.getElementById("filtro-sexo");
+    const filtroMarca = document.getElementById("filtro-marca");
+    const filtroLote = document.getElementById("filtro-lote");
+    const btnFiltrar = document.getElementById("btn-filtrar");
+
+    // Agregar evento al botón "Agregar Animal"
+    btnAgregarAnimal.addEventListener("click", mostrarFormularioAgregar);
 
     // 🔹 Ocultar el buscador al cargar la página
     buscadorAnimales.classList.add("inactive");
@@ -138,35 +145,47 @@ document.addEventListener("DOMContentLoaded", () => {
     btnAnimales.addEventListener("click", () => {
         console.log("📢 Click en Animales");
         seccionAnimales.classList.remove("inactive");
-        buscadorAnimales.classList.remove("inactive"); // 🔹 Mostrar buscador
+        buscadorAnimales.classList.remove("inactive");
         cargarAnimales();
     });
 
     // Evento para buscar animales en tiempo real
     inputBuscar.addEventListener("input", () => {
-        const query = inputBuscar.value.trim().toLowerCase();
-
-        if (query === "") {
-            mostrarPagina(1); // Si está vacío, mostramos la lista completa
-            return;
-        }
-
-        // Filtrar animales que coincidan con el ID exacto o parcialmente con la raza
-        const animalesFiltrados = animalesData.filter(animal =>
-            animal.id.toString() === query || animal.raza.toLowerCase().includes(query)
-        );
-
-        // Mostrar resultados
-        if (animalesFiltrados.length > 0) {
-            mostrarResultadosBusqueda(animalesFiltrados);
-        } else {
-            contenedorAnimales.innerHTML = `<p class="mensaje-busqueda">No se encontraron animales.</p>`;
-        }
+        aplicarFiltros();
     });
+
+    // Evento para aplicar filtros
+    btnFiltrar.addEventListener("click", () => {
+        aplicarFiltros();
+    });
+
+    // Función para aplicar los filtros de búsqueda
+    function aplicarFiltros() {
+        const query = inputBuscar.value.trim().toLowerCase();
+        const sexoSeleccionado = filtroSexo.value;
+        const marcaSeleccionada = filtroMarca.value;
+        const loteSeleccionado = filtroLote.value;
+
+        const animalesFiltrados = animalesData.filter(animal => {
+            return (
+                (query === "" || animal.id.toString() === query || animal.raza.toLowerCase().includes(query)) &&
+                (sexoSeleccionado === "" || animal.sexo === sexoSeleccionado) &&
+                (marcaSeleccionada === "" || animal.marca === marcaSeleccionada) &&
+                (loteSeleccionado === "" || animal.lote === loteSeleccionado)
+            );
+        });
+
+        mostrarResultadosBusqueda(animalesFiltrados);
+    }
 
     // Función para mostrar los resultados filtrados
     function mostrarResultadosBusqueda(animales) {
-        contenedorAnimales.innerHTML = ""; // Limpiar contenedor antes de agregar los nuevos resultados
+        contenedorAnimales.innerHTML = "";
+
+        if (animales.length === 0) {
+            contenedorAnimales.innerHTML = `<p class="mensaje-busqueda">No se encontraron animales.</p>`;
+            return;
+        }
 
         animales.forEach(animal => {
             const tarjeta = document.createElement("div");
@@ -179,8 +198,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 <div class="info">
                     <h3><strong>ID:</strong> ${animal.id}</h3>
                     <p><strong>Raza:</strong> ${animal.raza}</p>
-                    <p><strong>Edad:</strong> ${animal.edad} años</p>
-                    <p><strong>Peso:</strong> ${animal.peso} kg</p>
+                    <p><strong>Sexo:</strong> ${animal.sexo}</p>
+                    <p><strong>Marca:</strong> ${animal.marca}</p>
+                    <p><strong>Lote:</strong> ${animal.lote}</p>
                     <button class="btn-editar" onclick="editarAnimal(${animal.id})">Editar</button>
                     <button class="btn-eliminar" onclick="eliminarAnimal(${animal.id})">Eliminar</button>
                 </div>
@@ -189,8 +209,8 @@ document.addEventListener("DOMContentLoaded", () => {
             contenedorAnimales.appendChild(tarjeta);
         });
     }
-
 });
+
 
 // Función para cerrar sesión
 function cerrarSesion() {
@@ -233,7 +253,7 @@ document.getElementById("btn-papelera").addEventListener("click", async () => {
         papeleraContainer.innerHTML = "";
 
         if (animalesEliminados.length === 0) {
-            papeleraContainer.innerHTML = "<p>No hay animales en la papelera.</p>";
+            papeleraContainer.innerHTML = "<p>No hay animales eliminados recientemente.</p>";
             return;
         }
 

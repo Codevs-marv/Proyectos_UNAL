@@ -33,7 +33,6 @@
             </li>
         </ul>
     </nav>
-    
     </aside>
 
     <!-- Contenido principal -->
@@ -70,17 +69,48 @@
       </div>
     </div>
 
-
     <!-- Sección donde se mostrará el inventario de animales -->
     <section id="seccion-animales" class="inactive">
         <h2>Inventario General de Animales</h2>
 
-        <!-- Campo de búsqueda y Agregar animales -->
-        <!-- Contenedor del buscador y el botón agregar -->
+        <!-- Contenedor del buscador -->
         <div id="buscador-animales" class="inactive search-container">
           <input type="text" id="buscar-animal" placeholder="Buscar por ID o raza...">
-          <button id="btn-buscar"> 🔍</button>
-          <button id="btn-agregar-animal"> ✚ Agregar Animal</button>
+          
+          <!-- Botón de Buscar -->
+          <button id="btn-buscar">🔍 Buscar</button>
+
+          <!-- Botón de Filtro -->
+          <button id="btn-abrir-filtro">🔽 Filtrar</button>
+
+          <!-- Menú flotante de filtros -->
+          <div id="menu-filtro" class="menu-filtro inactive">
+            <label for="filtro-sexo">Sexo:</label>
+            <select id="filtro-sexo">
+                <option value="">Todos</option>
+                <option value="Macho">Macho</option>
+                <option value="Hembra">Hembra</option>
+            </select>
+
+            <label for="filtro-marca">Marca:</label>
+            <select id="filtro-marca">
+                <option value="">Todas</option>
+                <option value="BHQZ">BHQZ</option>
+                <option value="PP8">PP8</option>
+                <option value="B456">B456</option>
+            </select>
+
+            <label for="filtro-lote">Lote:</label>
+            <select id="filtro-lote">
+                <option value="">Todos</option>
+                <option value="Lote A">Lote A</option>
+                <option value="Lote B">Lote B</option>
+                <option value="Lote 2">Lote 2</option>
+            </select>
+
+            <!-- Botón para aplicar el filtro -->
+            <button id="btn-aplicar-filtro">✅ Aplicar</button>
+          </div>
         </div>
 
         <!-- Contenedor de animales-->
