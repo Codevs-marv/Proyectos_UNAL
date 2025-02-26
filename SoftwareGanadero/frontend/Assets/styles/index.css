@@ -728,7 +728,7 @@ footer {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     position: relative;
     min-height: 60vh;
-    display: none; /* Cambia esto a flex cuando se muestre */
+    display: none;
     flex-direction: column;
 }
 

@@ -22,6 +22,14 @@ let animalesData = [];
 let paginaActual = 1;
 const animalesPorPagina = 20;
 
+// ✅ Función para obtener la imagen de la raza
+function obtenerRutaImagen(raza) {
+    if (!raza) return "./assets/img/animal-placeholder.jpg"; // Si no hay raza, usar imagen por defecto
+
+    const nombreArchivo = raza.toLowerCase().replace(/\s+/g, "") + ".jpg";
+    return `./assets/img/${nombreArchivo}`;
+}
+
 // Verificar sesión y redirigir si no hay usuario
 document.addEventListener("DOMContentLoaded", () => {
     const usuario = sessionStorage.getItem("usuario");
@@ -198,56 +206,86 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnPapelera = document.getElementById("btn-papelera");
     const seccionPapelera = document.getElementById("seccion-papelera");
     const papeleraContainer = document.querySelector(".papelera-container");
-    const btnVaciarPapelera = document.getElementById("btn-vaciar-papelera");
+    const btnVaciarPapelera = document.getElementById("btn-vaciar-papelera"); // ✅ Aquí se obtiene el botón
 
     if (!btnVaciarPapelera) {
         console.error("❌ Error: No se encontró el botón 'Vaciar Papelera'.");
-        return;
+        return; // Detener ejecución si el botón no existe
     }
 
     // 📌 Mostrar la papelera de reciclaje SOLO cuando se haga clic en el botón
-    btnPapelera.addEventListener("click", async () => {
-        console.log("🗑️ Mostrando papelera de reciclaje...");
-    
-        // 🔹 Ocultar la sección de animales y mostrar la papelera
-        document.getElementById("seccion-animales").classList.add("inactive");
-        seccionPapelera.classList.remove("inactive");
-    
+    // Evento para mostrar la papelera solo cuando se haga clic
+document.getElementById("btn-papelera").addEventListener("click", async () => {
+    console.log("🗑️ Mostrando papelera de reciclaje...");
+
+    // Ocultar la sección de animales y mostrar la papelera
+    document.getElementById("seccion-animales").style.display = "none";
+    document.getElementById("seccion-papelera").style.display = "flex";
+
+    try {
+        const response = await fetch("http://127.0.0.1:5001/papelera");
+        if (!response.ok) throw new Error("Error al obtener los animales eliminados");
+
+        const animalesEliminados = await response.json();
+        console.log("🔄 Animales en la papelera:", animalesEliminados);
+
+        const papeleraContainer = document.querySelector(".papelera-container");
+        papeleraContainer.innerHTML = "";
+
+        if (animalesEliminados.length === 0) {
+            papeleraContainer.innerHTML = "<p>No hay animales en la papelera.</p>";
+            return;
+        }
+
+        // Crear tarjetas para cada animal eliminado
+        animalesEliminados.forEach(animal => {
+            const tarjeta = document.createElement("div");
+            tarjeta.classList.add("tarjeta-animal");
+
+            tarjeta.innerHTML = `
+                <img src="${obtenerRutaImagen(animal.raza)}" alt="Foto de ${animal.raza}"
+                    onerror="this.onerror=null; this.src='./assets/img/animal-placeholder.jpg';">
+                <div class="info">
+                    <h3><strong>ID:</strong> ${animal.id}</h3>
+                    <p><strong>Raza:</strong> ${animal.raza}</p>
+                    <button class="btn-restaurar" onclick="restaurarAnimal(${animal.id})">Restaurar</button>
+                </div>
+            `;
+
+            papeleraContainer.appendChild(tarjeta);
+        });
+
+    } catch (error) {
+        console.error("❌ Error al cargar la papelera:", error);
+    }
+});
+
+// ✅ Asegurar que al hacer clic en "Animales", la papelera se oculte
+document.getElementById("btn-animales").addEventListener("click", () => {
+    console.log("📢 Click en Animales");
+
+    // Mostrar sección de animales y ocultar la papelera
+    document.getElementById("seccion-animales").style.display = "flex";
+    document.getElementById("seccion-papelera").style.display = "none";
+
+    cargarAnimales(); // Recargar lista de animales
+});
+
+
+    // 📌 Vaciar la papelera
+    btnVaciarPapelera.addEventListener("click", async () => {
+        if (!confirm("⚠ ¿Seguro que quieres eliminar todos los animales definitivamente?")) return;
+
+        console.log("🗑️ Vaciando papelera de reciclaje...");
         try {
-            const response = await fetch("http://127.0.0.1:5001/papelera");
-            if (!response.ok) throw new Error("Error al obtener los animales eliminados");
-    
-            const animalesEliminados = await response.json();
-            console.log("🔄 Animales en la papelera:", animalesEliminados);
-    
-            papeleraContainer.innerHTML = "";
+            const response = await fetch("http://127.0.0.1:5001/eliminar_definitivo", { method: "DELETE" });
+            if (!response.ok) throw new Error("Error al vaciar la papelera");
 
-            if (animalesEliminados.length === 0) {
-                papeleraContainer.innerHTML = "<p>No hay animales en la papelera.</p>";
-                return;
-            }
+            alert("✅ Papelera vaciada correctamente.");
+            btnPapelera.click(); // Recargar la papelera
 
-            // Crear tarjetas para cada animal eliminado
-            animalesEliminados.forEach(animal => {
-                const tarjeta = document.createElement("div");
-                tarjeta.classList.add("tarjeta-animal");
-    
-                tarjeta.innerHTML = `
-                    <img src="${obtenerRutaImagen(animal.raza)}" alt="Foto de ${animal.raza}"
-                        onerror="this.onerror=null; this.src='./assets/img/animal-placeholder.jpg';">
-                    <div class="info">
-                        <h3><strong>ID:</strong> ${animal.id}</h3>
-                        <p><strong>Raza:</strong> ${animal.raza}</p>
-                        <button class="btn-restaurar" onclick="restaurarAnimal(${animal.id})">Restaurar</button>
-                    </div>
-                `;
-
-
-                papeleraContainer.appendChild(tarjeta);
-            });
-    
         } catch (error) {
-            console.error("❌ Error al cargar la papelera:", error);
+            console.error("❌ Error al vaciar la papelera:", error);
         }
     });
 
