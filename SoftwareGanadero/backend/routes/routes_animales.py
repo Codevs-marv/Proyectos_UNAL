@@ -105,23 +105,25 @@ def editar_animal(id):
 @routes.route("/papelera", methods=["GET"])
 @cross_origin()  # 🔹 Permitir CORS en esta ruta específica
 def obtener_papelera():
-    animales_eliminados = Animal.query.filter_by(eliminado=True).all()
+    animales_eliminados = AnimalesEliminados.query.all()
     
-    if not animales_eliminados:
-        return jsonify([]), 200
-
-    resultado = [
+    return jsonify([
         {
             "id": animal.id,
             "raza": animal.raza,
-            "sexo": animal.sexo,
+            "edad": animal.edad,
             "peso": animal.peso,
-            "edad": animal.edad
+            "sexo": animal.sexo,
+            "marca": animal.marca,
+            "proposito": animal.proposito,
+            "fechaNacimiento": animal.fechaNacimiento,
+            "lote": animal.lote,
+            "cantidadPartos": animal.cantidadPartos,
+            "fechaUltimoParto": animal.fechaUltimoParto,
+            "fecha_eliminacion": animal.fecha_eliminacion
         }
         for animal in animales_eliminados
-    ]
-    return jsonify(resultado), 200
-
+    ]), 200
 
 # ✅ Mover un animal a la papelera en lugar de eliminarlo
 @routes.route("/animales/<int:id>", methods=["DELETE"])
