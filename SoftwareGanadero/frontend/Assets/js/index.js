@@ -192,6 +192,130 @@ function cerrarSesion() {
 }
 
 
+// FUNCION PARA MANEJAR LA PAPELERA DE RECICLAJE
+document.addEventListener("DOMContentLoaded", () => {
+    const btnPapelera = document.getElementById("btn-papelera");
+    const seccionPapelera = document.getElementById("seccion-papelera");
+    const papeleraContainer = document.querySelector(".papelera-container");
+    const btnVaciarPapelera = document.getElementById("btn-vaciar-papelera");
+
+    // ✅ Mostrar la papelera al hacer clic en el menú
+    btnPapelera.addEventListener("click", async () => {
+        console.log("🗑️ Cargando Papelera de Reciclaje...");
+
+        seccionAnimales.classList.add("inactive"); // Ocultar sección de animales
+        seccionPapelera.classList.remove("inactive"); // Mostrar papelera
+
+        try {
+            const response = await fetch("http://127.0.0.1:5001/papelera");
+            if (!response.ok) {
+                throw new Error("❌ Error al obtener los animales eliminados.");
+            }
+
+            const animalesEliminados = await response.json();
+            console.log("✅ Animales en papelera:", animalesEliminados);
+
+            // Limpiar contenedor antes de agregar nuevos elementos
+            papeleraContainer.innerHTML = "";
+
+            if (animalesEliminados.length === 0) {
+                papeleraContainer.innerHTML = "<p>No hay animales en la papelera.</p>";
+                return;
+            }
+
+            // Renderizar tarjetas de los animales eliminados
+            animalesEliminados.forEach(animal => {
+                const tarjeta = document.createElement("div");
+                tarjeta.classList.add("tarjeta-animal");
+
+                tarjeta.innerHTML = `
+                    <img src="./assets/img/animal-placeholder.jpg" alt="Animal Eliminado">
+                    <div class="info">
+                        <h3>ID: ${animal.id}</h3>
+                        <p>Raza: ${animal.raza}</p>
+                        <p>Edad: ${animal.edad} años</p>
+                        <p>Peso: ${animal.peso} kg</p>
+                        <button class="btn-restaurar" onclick="restaurarAnimal(${animal.id})">Restaurar</button>
+                        <button class="btn-eliminar-def" onclick="eliminarDefinitivo(${animal.id})">Eliminar</button>
+                    </div>
+                `;
+
+                papeleraContainer.appendChild(tarjeta);
+            });
+
+        } catch (error) {
+            console.error("❌ Error al obtener la papelera:", error);
+        }
+    });
+
+    // ✅ Restaurar un animal
+    window.restaurarAnimal = async (id) => {
+        console.log(`♻ Restaurando animal con ID: ${id}`);
+
+        try {
+            const response = await fetch(`http://127.0.0.1:5001/animales/restaurar/${id}`, {
+                method: "PUT"
+            });
+
+            if (!response.ok) {
+                throw new Error("❌ No se pudo restaurar el animal.");
+            }
+
+            alert("✅ Animal restaurado correctamente.");
+            btnPapelera.click(); // Recargar la papelera
+        } catch (error) {
+            console.error("❌ Error al restaurar:", error);
+            alert("Hubo un error al restaurar el animal.");
+        }
+    };
+
+    // ✅ Eliminar definitivamente un animal
+    window.eliminarDefinitivo = async (id) => {
+        console.log(`🗑 Eliminando definitivamente animal con ID: ${id}`);
+
+        if (!confirm("⚠ ¿Estás seguro de que quieres eliminarlo permanentemente?")) return;
+
+        try {
+            const response = await fetch(`http://127.0.0.1:5001/animales/definitivo/${id}`, {
+                method: "DELETE"
+            });
+
+            if (!response.ok) {
+                throw new Error("❌ No se pudo eliminar definitivamente.");
+            }
+
+            alert("✅ Animal eliminado permanentemente.");
+            btnPapelera.click(); // Recargar la papelera
+        } catch (error) {
+            console.error("❌ Error al eliminar definitivamente:", error);
+            alert("Hubo un error al eliminar el animal.");
+        }
+    };
+
+    // ✅ Vaciar toda la papelera
+    btnVaciarPapelera.addEventListener("click", async () => {
+        console.log("🗑 Vaciando papelera...");
+
+        if (!confirm("⚠ ¿Seguro que quieres eliminar todos los animales definitivamente?")) return;
+
+        try {
+            const response = await fetch("http://127.0.0.1:5001/eliminar_definitivo", {
+                method: "DELETE"
+            });
+
+            if (!response.ok) {
+                throw new Error("❌ No se pudo vaciar la papelera.");
+            }
+
+            alert("✅ Papelera vaciada correctamente.");
+            btnPapelera.click(); // Recargar la papelera
+        } catch (error) {
+            console.error("❌ Error al vaciar la papelera:", error);
+            alert("Hubo un error al vaciar la papelera.");
+        }
+    });
+});
+
 
 // Función para abrir el formulario de edición
 // Función para abrir el modal de edición

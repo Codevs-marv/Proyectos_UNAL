@@ -718,3 +718,32 @@ footer {
     opacity: 0;
     pointer-events: none;
 }
+
+/* SECCIÓN DE PAPELERA */
+#seccion-papelera {
+    margin: 20px;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    min-height: 80vh;
+}
+
+.papelera-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.btn-restaurar {
+    background-color: #28a745;
+    color: white;
+    border-radius: 5px;
+}
+
+.btn-eliminar-def {
+    background-color: #dc3545;
+    color: white;
+    border-radius: 5px;
+}
