@@ -555,14 +555,111 @@ footer {
 
 /* ESTILOS DE LO RELACIONADO CON BUSCAR*/
 /* Contenedor de búsqueda y botón agregar */
-
+/* 🔹 Contenedor del buscador y botones */
 .search-container {
     display: flex;
-    justify-content: space-between; /* Distribuye los elementos */
     align-items: center;
-    margin-bottom: 15px;
-    padding: 10px;
+    gap: 10px; /* Espacio entre elementos */
 }
+
+/* 🔹 Estilos del botón "Filtrar" */
+#btn-abrir-filtro {
+    background: #2c3e50;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease;
+}
+#btn-abrir-filtro:hover {
+    background: #1d2d3a;
+}
+
+/* MENU DE FILTRO ESTILOS */
+/* Estilos del menú de filtros */
+.menu-filtro {
+    position: absolute;
+    top: 95px; /* Ajusta la posición vertical */
+    left: 32.2%;
+    transform: translateX(-50%);
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+    display: none; /* Ocultar por defecto */
+    width: 200px; /* Ajustar ancho */
+}
+
+/* Mostrar el menú cuando esté activo */
+.menu-filtro.active {
+    display: block;
+}
+
+/* 🔹 Mejora de los selects */
+.menu-filtro select {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 2px solid #27ae60;
+    border-radius: 8px;
+    background-color: #f8f8f8;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    appearance: none; /* Oculta el estilo nativo del select */
+}
+
+/* 🔹 Icono de flecha personalizada */
+.menu-filtro select {
+    background-image: url('../img/down-arrow.png'); /* Cambia el icono si tienes uno */
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+    padding-right: 30px; /* Espacio para el icono */
+}
+
+/* 🔹 Efecto al pasar el mouse */
+.menu-filtro select:hover {
+    background-color: #eaf8ed;
+    border-color: #219150;
+}
+
+/* 🔹 Efecto cuando está en foco */
+.menu-filtro select:focus {
+    outline: none;
+    border-color: #1e8449;
+    box-shadow: 0px 0px 8px rgba(39, 174, 96, 0.5);
+}
+
+/* 🔹 Estilos del botón de aplicar filtro */
+#btn-aplicar-filtro {
+    background: #27ae60;
+    color: white;
+    border: none;
+    padding: 8px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease;
+}
+
+#btn-aplicar-filtro:hover {
+    background: #219150;
+}
+
+/* 🔹 Espaciado entre los elementos */
+.menu-filtro label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    display: block;
+    margin-top: 10px;
+}
+
 
 /* Botón de agregar (Verde) */
 #btn-agregar-animal {

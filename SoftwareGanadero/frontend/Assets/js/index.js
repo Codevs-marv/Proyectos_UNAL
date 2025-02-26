@@ -18,9 +18,13 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // Variables globales
+let contenedorAnimales = document.querySelector(".animales-container");
 let animalesData = [];
 let paginaActual = 1;
 const animalesPorPagina = 20;
+let paginaActualSpan = document.getElementById("pagina-actual");
+let btnAnterior = document.getElementById("btn-anterior");
+let btnSiguiente = document.getElementById("btn-siguiente");
 
 // ✅ Función para obtener la imagen de la raza
 function obtenerRutaImagen(raza) {
@@ -30,17 +34,81 @@ function obtenerRutaImagen(raza) {
     return `./assets/img/${nombreArchivo}`;
 }
 
-// Verificar sesión y redirigir si no hay usuario
-document.addEventListener("DOMContentLoaded", () => {
-    const usuario = sessionStorage.getItem("usuario");
 
+// (globalizada)
+// Mostrar los animales en la página actual
+function mostrarPagina(pagina) {
+    contenedorAnimales.innerHTML = "";
+
+    const inicio = (pagina - 1) * animalesPorPagina;
+    const fin = inicio + animalesPorPagina;
+    const animalesPagina = animalesData.slice(inicio, fin);
+
+    // Renderizar cada animal
+    animalesPagina.forEach(animal => {
+        const tarjeta = document.createElement("div");
+        tarjeta.classList.add("tarjeta-animal");
+
+        tarjeta.innerHTML = `
+            <img src="${obtenerRutaImagen(animal.raza)}" 
+                 alt="Foto de ${animal.raza}" 
+                 onerror="this.onerror=null; this.src='./assets/img/animal-placeholder.jpg';">
+            <div class="info">
+                <h3><strong>ID:</strong> ${animal.id}</h3>
+                <p><strong>Raza:</strong> ${animal.raza}</p>
+                <p><strong>Edad:</strong> ${animal.edad} años</p>
+                <p><strong>Peso:</strong> ${animal.peso} kg</p>
+                <button class="btn-editar" onclick="editarAnimal(${animal.id})">Editar</button>
+                <button class="btn-eliminar" onclick="eliminarAnimal(${animal.id})">Eliminar</button>
+            </div>
+        `;
+
+        contenedorAnimales.appendChild(tarjeta);
+    });
+
+    // Actualizar número de página
+    paginaActualSpan.textContent = `Página ${pagina} de ${Math.ceil(animalesData.length / animalesPorPagina)}`;
+
+    // Deshabilitar botones si es necesario
+    btnAnterior.disabled = pagina === 1;
+    btnSiguiente.disabled = fin >= animalesData.length;
+}
+
+
+// (definido globalmente)
+// Cargar lista de animales desde el backend
+async function cargarAnimales() {
+    console.log("🐄 Cargando lista de animales...");
+    try {
+        const response = await fetch("http://127.0.0.1:5001/animales");
+        if (!response.ok) {
+            throw new Error(`❌ Error en la respuesta del servidor: ${response.status}`);
+        }
+
+        animalesData = await response.json();
+        console.log("✅ Datos de los animales recibidos:", animalesData);
+
+        paginaActual = 1;
+        mostrarPagina(paginaActual);
+    } catch (error) {
+        console.error("❌ Error al obtener los animales:", error);
+    }
+}
+
+
+
+// ✅ Verificar sesión y redirigir si no hay usuario
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("📌 DOM completamente cargado.");
+
+    const usuario = sessionStorage.getItem("usuario");
     if (!usuario) {
         console.warn("⚠ No hay usuario en sesión. Redirigiendo al login...");
         window.location.href = "login.html";
     }
 
-    // Obtener elementos del DOM
-    const btnAnimales = document.querySelector(".menu li:nth-child(3)");
+    // ✅ Obtener elementos del DOM
+    const btnAnimales = document.getElementById("btn-animales");
     const seccionAnimales = document.getElementById("seccion-animales");
     const contenedorAnimales = document.querySelector(".animales-container");
     const buscadorAnimales = document.getElementById("buscador-animales");
@@ -51,134 +119,94 @@ document.addEventListener("DOMContentLoaded", () => {
     const paginaActualSpan = document.getElementById("pagina-actual");
     const btnAgregarAnimal = document.getElementById("btn-agregar-animal");
 
-    // Filtros
-    const filtroSexo = document.getElementById("filtro-sexo");
-    const filtroMarca = document.getElementById("filtro-marca");
-    const filtroLote = document.getElementById("filtro-lote");
-    const btnFiltrar = document.getElementById("btn-filtrar");
+    // ✅ Botón para abrir/cerrar el menú de filtros
+    const btnAbrirFiltro = document.getElementById("btn-abrir-filtro");
+    const menuFiltro = document.getElementById("menu-filtro");
+    const btnAplicarFiltro = document.getElementById("btn-aplicar-filtro");
 
-    // Agregar evento al botón "Agregar Animal"
-    btnAgregarAnimal.addEventListener("click", mostrarFormularioAgregar);
+    // ✅ Verificar existencia antes de asignar eventos
+    if (btnAgregarAnimal) {
+        btnAgregarAnimal.addEventListener("click", mostrarFormularioAgregar);
+    } else {
+        console.warn("⚠ No se encontró el botón 'Agregar Animal' en el DOM.");
+    }
+
+    if (btnAbrirFiltro && menuFiltro) {
+        btnAbrirFiltro.addEventListener("click", () => {
+            menuFiltro.classList.toggle("inactive");
+        });
+    } else {
+        console.warn("⚠ No se encontró el botón 'Abrir Filtro' o el 'Menú de Filtro' en el DOM.");
+    }
+
+    if (btnAplicarFiltro) {
+        btnAplicarFiltro.addEventListener("click", () => {
+            aplicarFiltros();
+            menuFiltro.classList.add("inactive"); // Ocultar menú después de aplicar
+        });
+    } else {
+        console.warn("⚠ No se encontró el botón 'Aplicar Filtro' en el DOM.");
+    }
 
     // 🔹 Ocultar el buscador al cargar la página
     buscadorAnimales.classList.add("inactive");
 
-    // Función para obtener la imagen de la raza
-    const obtenerRutaImagen = (raza) => {
-        const nombreArchivo = raza.toLowerCase().replace(/\s+/g, "") + ".jpg";
-        return `./assets/img/${nombreArchivo}`;
-    };
-
-    // Cargar lista de animales desde el backend
-    async function cargarAnimales() {
-        console.log("🐄 Cargando lista de animales...");
-        try {
-            const response = await fetch("http://127.0.0.1:5001/animales");
-            if (!response.ok) {
-                throw new Error(`❌ Error en la respuesta del servidor: ${response.status}`);
+    // ✅ Eventos de paginación
+    if (btnAnterior && btnSiguiente) {
+        btnAnterior.addEventListener("click", () => {
+            if (paginaActual > 1) {
+                paginaActual--;
+                mostrarPagina(paginaActual);
             }
-
-            animalesData = await response.json();
-            console.log("✅ Datos de los animales recibidos:", animalesData);
-
-            paginaActual = 1;
-            mostrarPagina(paginaActual);
-        } catch (error) {
-            console.error("❌ Error al obtener los animales:", error);
-        }
-    }
-
-    // Mostrar los animales en la página actual
-    function mostrarPagina(pagina) {
-        contenedorAnimales.innerHTML = "";
-
-        const inicio = (pagina - 1) * animalesPorPagina;
-        const fin = inicio + animalesPorPagina;
-        const animalesPagina = animalesData.slice(inicio, fin);
-
-        // Renderizar cada animal
-        animalesPagina.forEach(animal => {
-            const tarjeta = document.createElement("div");
-            tarjeta.classList.add("tarjeta-animal");
-
-            tarjeta.innerHTML = `
-                <img src="${obtenerRutaImagen(animal.raza)}" 
-                     alt="Foto de ${animal.raza}" 
-                     onerror="this.onerror=null; this.src='./assets/img/animal-placeholder.jpg';">
-                <div class="info">
-                    <h3><strong>ID:</strong> ${animal.id}</h3>
-                    <p><strong>Raza:</strong> ${animal.raza}</p>
-                    <p><strong>Edad:</strong> ${animal.edad} años</p>
-                    <p><strong>Peso:</strong> ${animal.peso} kg</p>
-                    <button class="btn-editar" onclick="editarAnimal(${animal.id})">Editar</button>
-                    <button class="btn-eliminar" onclick="eliminarAnimal(${animal.id})">Eliminar</button>
-                </div>
-            `;
-
-            contenedorAnimales.appendChild(tarjeta);
         });
 
-        // Actualizar número de página
-        paginaActualSpan.textContent = `Página ${pagina} de ${Math.ceil(animalesData.length / animalesPorPagina)}`;
-
-        // Deshabilitar botones si es necesario
-        btnAnterior.disabled = pagina === 1;
-        btnSiguiente.disabled = fin >= animalesData.length;
+        btnSiguiente.addEventListener("click", () => {
+            if (paginaActual * animalesPorPagina < animalesData.length) {
+                paginaActual++;
+                mostrarPagina(paginaActual);
+            }
+        });
     }
 
-    // Eventos de paginación
-    btnAnterior.addEventListener("click", () => {
-        if (paginaActual > 1) {
-            paginaActual--;
-            mostrarPagina(paginaActual);
-        }
-    });
+    // ✅ Evento para mostrar animales y buscador al hacer clic en "Animales"
+    if (btnAnimales) {
+        btnAnimales.addEventListener("click", () => {
+            console.log("📢 Click en Animales");
+            seccionAnimales.classList.remove("inactive");
+            buscadorAnimales.classList.remove("inactive");
+            cargarAnimales();
+        });
+    } else {
+        console.warn("⚠ No se encontró el botón 'Animales' en el DOM.");
+    }
 
-    btnSiguiente.addEventListener("click", () => {
-        if (paginaActual * animalesPorPagina < animalesData.length) {
-            paginaActual++;
-            mostrarPagina(paginaActual);
-        }
-    });
+    // ✅ Evento para buscar animales en tiempo real
+    if (inputBuscar) {
+        inputBuscar.addEventListener("input", () => {
+            aplicarFiltros();
+        });
+    }
 
-    // Evento para mostrar animales y buscador al hacer clic en "Animales"
-    btnAnimales.addEventListener("click", () => {
-        console.log("📢 Click en Animales");
-        seccionAnimales.classList.remove("inactive");
-        buscadorAnimales.classList.remove("inactive");
-        cargarAnimales();
-    });
-
-    // Evento para buscar animales en tiempo real
-    inputBuscar.addEventListener("input", () => {
-        aplicarFiltros();
-    });
-
-    // Evento para aplicar filtros
-    btnFiltrar.addEventListener("click", () => {
-        aplicarFiltros();
-    });
-
-    // Función para aplicar los filtros de búsqueda
+    // ✅ Función para aplicar los filtros de búsqueda
     function aplicarFiltros() {
         const query = inputBuscar.value.trim().toLowerCase();
-        const sexoSeleccionado = filtroSexo.value;
-        const marcaSeleccionada = filtroMarca.value;
-        const loteSeleccionado = filtroLote.value;
+        const filtroSexo = document.getElementById("filtro-sexo").value;
+        const filtroMarca = document.getElementById("filtro-marca").value;
+        const filtroLote = document.getElementById("filtro-lote").value;
 
         const animalesFiltrados = animalesData.filter(animal => {
             return (
                 (query === "" || animal.id.toString() === query || animal.raza.toLowerCase().includes(query)) &&
-                (sexoSeleccionado === "" || animal.sexo === sexoSeleccionado) &&
-                (marcaSeleccionada === "" || animal.marca === marcaSeleccionada) &&
-                (loteSeleccionado === "" || animal.lote === loteSeleccionado)
+                (!filtroSexo || animal.sexo === filtroSexo) &&
+                (!filtroMarca || animal.marca === filtroMarca) &&
+                (!filtroLote || animal.lote === filtroLote)
             );
         });
 
         mostrarResultadosBusqueda(animalesFiltrados);
     }
 
-    // Función para mostrar los resultados filtrados
+    // ✅ Función para mostrar los resultados filtrados
     function mostrarResultadosBusqueda(animales) {
         contenedorAnimales.innerHTML = "";
 
@@ -209,7 +237,14 @@ document.addEventListener("DOMContentLoaded", () => {
             contenedorAnimales.appendChild(tarjeta);
         });
     }
+
+    // ✅ Función para obtener la imagen de la raza
+    function obtenerRutaImagen(raza) {
+        const nombreArchivo = raza.toLowerCase().replace(/\s+/g, "") + ".jpg";
+        return `./assets/img/${nombreArchivo}`;
+    }
 });
+
 
 
 // Función para cerrar sesión
@@ -719,6 +754,45 @@ function cerrarSesion() {
     sessionStorage.removeItem("usuario");
     window.location.href = "login.html";
 }
+
+// S E C C I O N   D E   F I L T R O S
+// MENU FLOTANTE DEL FILTRO
+document.addEventListener("DOMContentLoaded", () => {
+    const btnAbrirFiltro = document.getElementById("btn-abrir-filtro");
+    const menuFiltro = document.getElementById("menu-filtro");
+    const btnAplicarFiltro = document.getElementById("btn-aplicar-filtro");
+
+    // 📌 Mostrar/Ocultar el menú de filtros al hacer clic en "Filtrar"
+    btnAbrirFiltro.addEventListener("click", () => {
+        menuFiltro.classList.toggle("active");
+    });
+
+    // 📌 Aplicar filtros al hacer clic en "Aplicar"
+    btnAplicarFiltro.addEventListener("click", () => {
+        aplicarFiltro();
+        menuFiltro.classList.remove("active"); // Ocultar menú tras aplicar filtro
+    });
+
+    // 📌 Función para aplicar el filtro
+    function aplicarFiltro() {
+        const sexoSeleccionado = document.getElementById("filtro-sexo").value;
+        const marcaSeleccionada = document.getElementById("filtro-marca").value;
+        const loteSeleccionado = document.getElementById("filtro-lote").value;
+
+        // Filtrar los animales en base a los valores seleccionados
+        const animalesFiltrados = animalesData.filter(animal =>
+            (sexoSeleccionado === "" || animal.sexo === sexoSeleccionado) &&
+            (marcaSeleccionada === "" || animal.marca === marcaSeleccionada) &&
+            (loteSeleccionado === "" || animal.lote === loteSeleccionado)
+        );
+
+        // Mostrar los resultados filtrados
+        mostrarResultadosBusqueda(animalesFiltrados);
+    }
+});
+
+
+
 
 
 // L O A D E R
