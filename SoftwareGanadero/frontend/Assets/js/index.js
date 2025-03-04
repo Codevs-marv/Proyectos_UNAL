@@ -270,61 +270,61 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 📌 Mostrar la papelera de reciclaje SOLO cuando se haga clic en el botón
     // Evento para mostrar la papelera solo cuando se haga clic
-document.getElementById("btn-papelera").addEventListener("click", async () => {
-    console.log("🗑️ Mostrando papelera de reciclaje...");
+    document.getElementById("btn-papelera").addEventListener("click", async () => {
+        console.log("🗑️ Mostrando papelera de reciclaje...");
 
-    // Ocultar la sección de animales y mostrar la papelera
-    document.getElementById("seccion-animales").style.display = "none";
-    document.getElementById("seccion-papelera").style.display = "flex";
+        // Ocultar la sección de animales y mostrar la papelera
+        document.getElementById("seccion-animales").style.display = "none";
+        document.getElementById("seccion-papelera").style.display = "flex";
 
-    try {
-        const response = await fetch("http://127.0.0.1:5001/papelera");
-        if (!response.ok) throw new Error("Error al obtener los animales eliminados");
+        try {
+            const response = await fetch("http://127.0.0.1:5001/papelera");
+            if (!response.ok) throw new Error("Error al obtener los animales eliminados");
 
-        const animalesEliminados = await response.json();
-        console.log("🔄 Animales en la papelera:", animalesEliminados);
+            const animalesEliminados = await response.json();
+            console.log("🔄 Animales en la papelera:", animalesEliminados);
 
-        const papeleraContainer = document.querySelector(".papelera-container");
-        papeleraContainer.innerHTML = "";
+            const papeleraContainer = document.querySelector(".papelera-container");
+            papeleraContainer.innerHTML = "";
 
-        if (animalesEliminados.length === 0) {
-            papeleraContainer.innerHTML = "<p>No hay animales eliminados recientemente.</p>";
-            return;
+            if (animalesEliminados.length === 0) {
+                papeleraContainer.innerHTML = "<p>No hay animales eliminados recientemente.</p>";
+                return;
+            }
+
+            // Crear tarjetas para cada animal eliminado
+            animalesEliminados.forEach(animal => {
+                const tarjeta = document.createElement("div");
+                tarjeta.classList.add("tarjeta-animal");
+
+                tarjeta.innerHTML = `
+                    <img src="${obtenerRutaImagen(animal.raza)}" alt="Foto de ${animal.raza}"
+                        onerror="this.onerror=null; this.src='./assets/img/animal-placeholder.jpg';">
+                    <div class="info">
+                        <h3><strong>ID:</strong> ${animal.id}</h3>
+                        <p><strong>Raza:</strong> ${animal.raza}</p>
+                        <button class="btn-restaurar" onclick="restaurarAnimal(${animal.id})">Restaurar</button>
+                    </div>
+                `;
+
+                papeleraContainer.appendChild(tarjeta);
+            });
+
+        } catch (error) {
+            console.error("❌ Error al cargar la papelera:", error);
         }
+    });
 
-        // Crear tarjetas para cada animal eliminado
-        animalesEliminados.forEach(animal => {
-            const tarjeta = document.createElement("div");
-            tarjeta.classList.add("tarjeta-animal");
+    // ✅ Asegurar que al hacer clic en "Animales", la papelera se oculte
+    document.getElementById("btn-animales").addEventListener("click", () => {
+        console.log("📢 Click en Animales");
 
-            tarjeta.innerHTML = `
-                <img src="${obtenerRutaImagen(animal.raza)}" alt="Foto de ${animal.raza}"
-                    onerror="this.onerror=null; this.src='./assets/img/animal-placeholder.jpg';">
-                <div class="info">
-                    <h3><strong>ID:</strong> ${animal.id}</h3>
-                    <p><strong>Raza:</strong> ${animal.raza}</p>
-                    <button class="btn-restaurar" onclick="restaurarAnimal(${animal.id})">Restaurar</button>
-                </div>
-            `;
+        // Mostrar sección de animales y ocultar la papelera
+        document.getElementById("seccion-animales").style.display = "flex";
+        document.getElementById("seccion-papelera").style.display = "none";
 
-            papeleraContainer.appendChild(tarjeta);
-        });
-
-    } catch (error) {
-        console.error("❌ Error al cargar la papelera:", error);
-    }
-});
-
-// ✅ Asegurar que al hacer clic en "Animales", la papelera se oculte
-document.getElementById("btn-animales").addEventListener("click", () => {
-    console.log("📢 Click en Animales");
-
-    // Mostrar sección de animales y ocultar la papelera
-    document.getElementById("seccion-animales").style.display = "flex";
-    document.getElementById("seccion-papelera").style.display = "none";
-
-    cargarAnimales(); // Recargar lista de animales
-});
+        cargarAnimales(); // Recargar lista de animales
+    });
 
 
     // 📌 Vaciar la papelera
@@ -344,7 +344,7 @@ document.getElementById("btn-animales").addEventListener("click", () => {
         }
     });
 
-    
+        
     // 📌 Restaurar un animal desde la papelera
     window.restaurarAnimal = async (id) => {
         console.log(`🔄 Restaurando animal con ID: ${id}...`);
@@ -375,6 +375,195 @@ document.getElementById("btn-animales").addEventListener("click", () => {
 
         } catch (error) {
             console.error("❌ Error al vaciar la papelera:", error);
+        }
+    });
+
+    // 📌 Manejo de Insumos
+    document.addEventListener("DOMContentLoaded", () => {
+        console.log("📌 DOM completamente cargado.");
+
+        // 📌 Obtener elementos del DOM para Insumos
+        const btnInsumos = document.getElementById("btn-insumos"); // Botón en el menú lateral
+        const seccionInsumos = document.getElementById("seccion-insumos");
+        console.log("🔍 btnInsumos encontrado:", btnInsumos);
+        if (btnInsumos && seccionInsumos) {
+            btnInsumos.addEventListener("click", () => {
+                console.log("📢 Click en Insumos");
+
+                document.getElementById("seccion-animales").classList.add("inactive");
+                document.getElementById("seccion-papelera").classList.add("inactive");
+
+                seccionInsumos.classList.remove("inactive");  // ✅ Ahora sí está definido antes de usarlo
+
+                cargarInsumos();
+            });
+        } else {
+            console.error("❌ ERROR: No se encontró el botón de Insumos o la sección de Insumos.");
+        }
+
+        const contenedorInsumos = document.querySelector(".insumos-container");
+        const buscadorInsumos = document.getElementById("buscador-insumos");
+        const inputBuscarInsumo = document.getElementById("buscar-insumo");
+        const btnAnteriorInsumo = document.getElementById("btn-anterior-insumo");
+        const btnSiguienteInsumo = document.getElementById("btn-siguiente-insumo");
+        const paginaActualInsumoSpan = document.getElementById("pagina-actual-insumo");
+
+        console.log("🔍 btnInsumos encontrado:", btnInsumos);
+        
+        if (!btnInsumos || !seccionInsumos || !contenedorInsumos) {
+            console.error("❌ ERROR: No se encontraron elementos clave para insumos en el DOM.");
+            return;
+        }
+
+        // 📌 Variables para paginación
+        let insumosData = [];
+        let paginaActualInsumo = 1;
+        const insumosPorPagina = 10;
+
+        // 📌 Evento para mostrar la sección de Insumos
+        btnInsumos.addEventListener("click", () => {
+            console.log("📢 Click en Insumos");
+
+            // 🔹 Ocultar otras secciones
+            document.getElementById("seccion-animales").classList.add("inactive");
+            document.getElementById("seccion-papelera").classList.add("inactive");
+
+            // 🔹 Mostrar la sección de insumos
+            seccionInsumos.classList.remove("inactive");
+
+            // 🔹 Cargar la lista de insumos
+            cargarInsumos();
+        });
+
+        // 📌 Función para obtener la imagen del insumo
+        function obtenerRutaImagenInsumo(descripcion) {
+            if (!descripcion) return "./assets/img/insumos-placeholder.jpg";
+            const nombreArchivo = descripcion.toLowerCase().replace(/\s+/g, "") + ".jpg";
+            return `./assets/img/${nombreArchivo}`;
+        }
+
+        // 📌 Función para cargar los insumos desde el backend
+        async function cargarInsumos() {
+            console.log("📦 Cargando lista de insumos...");
+            try {
+                const response = await fetch("http://127.0.0.1:5001/insumos");
+                if (!response.ok) throw new Error("❌ Error al obtener los insumos");
+
+                insumosData = await response.json();
+                console.log("✅ Insumos recibidos:", insumosData);
+
+                paginaActualInsumo = 1;
+                mostrarPaginaInsumos(paginaActualInsumo);
+            } catch (error) {
+                console.error("❌ Error al obtener los insumos:", error);
+            }
+        }
+
+        // 📌 Función para mostrar los insumos en la página actual
+        function mostrarPaginaInsumos(pagina) {
+            console.log(`📄 Mostrando página ${pagina} de insumos...`);
+
+            // Limpiar contenedor antes de agregar nuevos datos
+            contenedorInsumos.innerHTML = "";
+
+            const inicio = (pagina - 1) * insumosPorPagina;
+            const fin = inicio + insumosPorPagina;
+            const insumosPagina = insumosData.slice(inicio, fin);
+
+            if (insumosPagina.length === 0) {
+                contenedorInsumos.innerHTML = `<p>No hay insumos registrados.</p>`;
+                return;
+            }
+
+            insumosPagina.forEach(insumo => {
+                console.log(`📦 Agregando insumo: ${insumo.descripcion}`);
+
+                const tarjeta = document.createElement("div");
+                tarjeta.classList.add("tarjeta-insumo");
+
+                tarjeta.innerHTML = `
+                    <img src="${obtenerRutaImagenInsumo(insumo.descripcion)}"
+                        alt="Imagen de ${insumo.descripcion}"
+                        onerror="this.onerror=null; this.src='./assets/img/insumos-placeholder.jpg';">
+                    <div class="info">
+                        <h3>${insumo.descripcion}</h3>
+                        <p><strong>Cantidad:</strong> ${insumo.cantidad} ${insumo.unidadDeMedida}</p>
+                        <p><strong>Valor Unitario:</strong> $${insumo.valorUnitario.toLocaleString()}</p>
+                        <p><strong>Stock Mínimo:</strong> ${insumo.stockMinimo}</p>
+                        <button class="btn-editar" onclick="editarInsumo('${insumo.descripcion}')">Editar</button>
+                        <button class="btn-eliminar" onclick="eliminarInsumo('${insumo.descripcion}')">Eliminar</button>
+                    </div>
+                `;
+
+                contenedorInsumos.appendChild(tarjeta);
+            });
+
+            // Actualizar número de página y botones de navegación
+            paginaActualInsumoSpan.textContent = `Página ${pagina} de ${Math.ceil(insumosData.length / insumosPorPagina)}`;
+            btnAnteriorInsumo.disabled = pagina === 1;
+            btnSiguienteInsumo.disabled = fin >= insumosData.length;
+        }
+
+        // 📌 Eventos de paginación
+        btnAnteriorInsumo.addEventListener("click", () => {
+            if (paginaActualInsumo > 1) {
+                paginaActualInsumo--;
+                mostrarPaginaInsumos(paginaActualInsumo);
+            }
+        });
+
+        btnSiguienteInsumo.addEventListener("click", () => {
+            if (paginaActualInsumo * insumosPorPagina < insumosData.length) {
+                paginaActualInsumo++;
+                mostrarPaginaInsumos(paginaActualInsumo);
+            }
+        });
+
+        // 📌 Evento para buscar insumos en tiempo real
+        inputBuscarInsumo.addEventListener("input", () => {
+            const query = inputBuscarInsumo.value.trim().toLowerCase();
+
+            if (query === "") {
+                mostrarPaginaInsumos(1);
+                return;
+            }
+
+            const insumosFiltrados = insumosData.filter(insumo =>
+                insumo.descripcion.toLowerCase().includes(query)
+            );
+
+            mostrarResultadosBusquedaInsumos(insumosFiltrados);
+        });
+
+        // 📌 Función para mostrar los resultados filtrados
+        function mostrarResultadosBusquedaInsumos(insumos) {
+            contenedorInsumos.innerHTML = "";
+
+            if (insumos.length === 0) {
+                contenedorInsumos.innerHTML = `<p class="mensaje-busqueda">No se encontraron insumos.</p>`;
+                return;
+            }
+
+            insumos.forEach(insumo => {
+                const tarjeta = document.createElement("div");
+                tarjeta.classList.add("tarjeta-insumo");
+
+                tarjeta.innerHTML = `
+                    <img src="${obtenerRutaImagenInsumo(insumo.descripcion)}"
+                        alt="Imagen de ${insumo.descripcion}"
+                        onerror="this.onerror=null; this.src='./assets/img/insumos-placeholder.jpg';">
+                    <div class="info">
+                        <h3>${insumo.descripcion}</h3>
+                        <p><strong>Cantidad:</strong> ${insumo.cantidad} ${insumo.unidadDeMedida}</p>
+                        <p><strong>Valor Unitario:</strong> $${insumo.valorUnitario.toLocaleString()}</p>
+                        <p><strong>Stock Mínimo:</strong> ${insumo.stockMinimo}</p>
+                        <button class="btn-editar" onclick="editarInsumo('${insumo.descripcion}')">Editar</button>
+                        <button class="btn-eliminar" onclick="eliminarInsumo('${insumo.descripcion}')">Eliminar</button>
+                    </div>
+                `;
+
+                contenedorInsumos.appendChild(tarjeta);
+            });
         }
     });
 });

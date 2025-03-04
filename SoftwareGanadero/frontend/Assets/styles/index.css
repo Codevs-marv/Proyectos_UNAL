@@ -894,3 +894,121 @@ footer {
 #btn-vaciar-papelera:hover {
     background: #fd1702;
 }
+
+
+
+/* 📦 SECCIÓN DE INSUMOS */
+#seccion-insumos {
+    margin: 20px;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: relative;
+    min-height: 60vh;
+    display: none; /* Se ocultará hasta que se seleccione la opción */
+    flex-direction: column;
+}
+
+/* Contenedor de tarjetas de insumos */
+.insumos-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding-top: 10px;
+}
+
+/* Tarjeta de insumo */
+.tarjeta-insumo {
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    padding: 15px;
+    width: 250px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.tarjeta-insumo:hover {
+    transform: scale(1.05);
+}
+
+/* Imagen del insumo */
+.tarjeta-insumo img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+/* Información dentro de la tarjeta */
+.tarjeta-insumo .info h3 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.tarjeta-insumo .info p {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #666;
+}
+
+/* Botones de la tarjeta */
+.tarjeta-insumo .btn-editar {
+    background: #f39c12;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 5px;
+    transition: background 0.3s ease;
+}
+
+.tarjeta-insumo .btn-editar:hover {
+    background: #e67e22;
+}
+
+.tarjeta-insumo .btn-eliminar {
+    background: #c0392b;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease;
+}
+
+.tarjeta-insumo .btn-eliminar:hover {
+    background: #a93226;
+}
+
+/* 📌 Paginación */
+.pagination-insumos {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.pagination-insumos button {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease;
+}
+
+.pagination-insumos button:hover {
+    background: #2980b9;
+}
+
+.pagination-insumos span {
+    font-size: 16px;
+    margin: 0 10px;
+}
