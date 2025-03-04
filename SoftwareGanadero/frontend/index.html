@@ -69,6 +69,29 @@
       </div>
     </div>
 
+    <!-- Sección donde se mostrará el inventario de insumos -->
+    <section id="seccion-insumos" class="inactive">
+      <h2>Inventario de Insumos</h2>
+
+      <!-- Contenedor del buscador y el botón agregar -->
+      <div id="buscador-insumos" class="inactive search-container">
+          <input type="text" id="buscar-insumo" placeholder="Buscar por descripción...">
+          <button id="btn-buscar-insumo">🔍 Buscar</button>
+          <button id="btn-agregar-insumo">✚ Agregar Insumo</button>
+      </div>
+
+      <!-- Contenedor de insumos -->
+      <div class="insumos-container"></div>
+
+      <!-- Controles de paginación -->
+      <div class="pagination">
+          <button id="btn-anterior-insumo">Anterior</button>
+          <span id="pagina-actual-insumo">Página 1</span>
+          <button id="btn-siguiente-insumo">Siguiente</button>
+      </div>
+    </section>
+
+
     <!-- Sección donde se mostrará el inventario de animales -->
     <section id="seccion-animales" class="inactive">
         <h2>Inventario General de Animales</h2>
