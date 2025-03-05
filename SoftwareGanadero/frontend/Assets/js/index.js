@@ -1010,3 +1010,6 @@ function cerrarSesion() {
         window.location.href = "login.html"; // Redirige al login después de un momento
     }, 1500); // 🔹 Simulamos un pequeño retraso
 }
+
+
+console.log("📌 index.js está funcionando correctamente.");
