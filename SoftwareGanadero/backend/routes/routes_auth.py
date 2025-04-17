@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, session
-from models import db, Usuario
+from backend.models import db, Usuario
 from werkzeug.security import check_password_hash
 
 routes_auth = Blueprint("routes_auth", __name__)

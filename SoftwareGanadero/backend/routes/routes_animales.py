@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from werkzeug.utils import secure_filename
-from models import db, Animal, AnimalesEliminados
+from backend.models import db, Animal, AnimalesEliminados
 from flask_cors import cross_origin
 from datetime import datetime
 import os

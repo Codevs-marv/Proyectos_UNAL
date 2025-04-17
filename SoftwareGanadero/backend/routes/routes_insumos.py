@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from models import db, Insumo  
+from backend.models import db, Insumo
 
 routes_insumos = Blueprint("routes_insumos", __name__, url_prefix="/insumos")
 

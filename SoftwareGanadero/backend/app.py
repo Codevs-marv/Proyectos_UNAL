@@ -1,7 +1,7 @@
 from flask import Flask, request, session
 from flask_session import Session 
 from flask_sqlalchemy import SQLAlchemy
-from config import SQLALCHEMY_DATABASE_URI
+from backend.config import SQLALCHEMY_DATABASE_URI
 from flask_cors import CORS
 from flask_migrate import Migrate
 
@@ -26,9 +26,9 @@ def create_app():
     sess.init_app(app)
     
     # 3. Registramos blueprints (DESPUÉS de init_app)
-    from routes.routes_animales import routes
-    from routes.routes_insumos import routes_insumos
-    from routes.routes_auth import routes_auth
+    from backend.routes.routes_animales import routes
+    from backend.routes.routes_insumos import routes_insumos
+    from backend.routes.routes_auth import routes_auth
     
     app.register_blueprint(routes_auth)
     app.register_blueprint(routes)
