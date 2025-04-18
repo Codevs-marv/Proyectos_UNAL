@@ -806,13 +806,13 @@ function mostrarFormularioAgregar() {
             <h2>Agregar Nuevo Animal</h2>
 
             <label>Sexo:</label>
-            <select id="add-sexo">
+            <select id="new-sexo">
                 <option value="Macho">Macho</option>
                 <option value="Hembra">Hembra</option>
             </select>
 
             <label>Marca:</label>
-            <select id="add-marca">
+            <select id="new-marca">
                 <option value="BHQZ">BHQZ</option>
                 <option value="PP8">PP8</option>
             </select>
@@ -827,7 +827,7 @@ function mostrarFormularioAgregar() {
             <input type="number" id="new-peso">
 
             <label>Propósito:</label>
-            <select id="add-proposito">
+            <select id="new-proposito">
                 <option value="Lecheria">Lechería</option>
                 <option value="Cria">Cría</option>
                 <option value="DobleProposito">Doble Propósito</option>

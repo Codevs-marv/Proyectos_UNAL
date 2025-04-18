@@ -67,7 +67,7 @@ class Animal(db.Model):
 
 
 class AnimalesEliminados(db.Model):
-    __tablename__ = "AnimalesEliminados"
+    __tablename__ = "animales_eliminados"
 
     id = db.Column(db.Integer, primary_key=True)
     raza = db.Column(db.String(50), nullable=False)
