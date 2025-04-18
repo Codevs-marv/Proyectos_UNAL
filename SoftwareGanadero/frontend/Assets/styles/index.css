@@ -31,54 +31,85 @@ body {
     display: none;
 }
 
+/* BARRA LATERAL (SIDEBAR) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
+:root {
+    --bg-sidebar: #0f172a;
+    --text-color: #f8fafc;
+    --hover-color: #283851;
+    --active-color: #19407f;
+    --border-color: #334155;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+}
+
 /* Barra lateral */
 .sidebar {
     width: 250px;
-    background-color: var(--aside);
-    color: var(--very-light-gray);
+    background-color: var(--bg-sidebar);
+    color: var(--text-color);
     display: flex;
     flex-direction: column;
+    padding-top: 20px;
 }
 
 .logo {
-    border-bottom: 3px solid var(--very-light-gray);
+    text-align: center;
+    margin-bottom: 30px;
 }
 
 .logo img {
-    width: 150px;
-    height: 150px;
-    justify-self: center;
-    margin-left: 48px;
+    width: 100px;
+    height: 100px;
 }
 
 .menu ul {
     list-style: none;
-    margin: 0;
+    padding: 0;
 }
 
 .menu li {
-    margin: 20px 0;
+    padding: 15px 20px;
     cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+    border-left: 4px solid transparent;
 }
 
-.menu ul ul {
-    margin-left: 15px;
+.menu li:hover {
+    background-color: var(--hover-color);
+}
+
+.menu li.active {
+    background-color: var(--active-color);
+    color: white;
+    border-left: 4px solid white;
 }
 
 .options img {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    vertical-align: middle;
 }
 
 .admin {
+    margin-top: auto;
+    padding: 20px;
+    border-top: 1px solid var(--border-color);
     text-align: center;
-    margin-top: 100px;
+    font-size: 14px;
 }
 
 .admin .status {
-    color: #27ae60;
+    color: #10b981;
     font-weight: bold;
 }
+
+
+
 
 /* Navbar */
 .navbar-menu {
@@ -98,7 +129,7 @@ body {
 
 .header {
     background-color: var(--blue);
-    color: rgb(102, 150, 94);
+    color: rgb(6, 6, 6);
     font-weight: 700;
     height: 56px;
     display: flex;

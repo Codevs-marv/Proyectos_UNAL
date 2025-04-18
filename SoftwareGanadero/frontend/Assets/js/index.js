@@ -1012,4 +1012,21 @@ function cerrarSesion() {
 }
 
 
+
+// CLASE ACTIVE DE LOS BOTONES DEL MENU
+// Función para manejar la clase 'active' en los botones del menú
+document.addEventListener("DOMContentLoaded", () => {
+    const menuItems = document.querySelectorAll(".menu li");
+
+    menuItems.forEach(item => {
+        item.addEventListener("click", () => {
+            // Remueve la clase 'active' de todos los botones
+            menuItems.forEach(el => el.classList.remove("active"));
+            
+            // Agrega la clase 'active' al que fue clicado
+            item.classList.add("active");
+        });
+    });
+});
+
 console.log("📌 index.js está funcionando correctamente.");

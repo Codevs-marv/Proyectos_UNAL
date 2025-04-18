@@ -103,7 +103,7 @@ def editar_animal(id):
 
 # ✅ Obtener la lista de animales eliminados (papelera de reciclaje)
 @routes.route("/papelera", methods=["GET"])
-@cross_origin()  # 🔹 Permitir CORS en esta ruta específica
+@cross_origin()  # Permitir CORS en esta ruta específica
 def obtener_papelera():
     animales_eliminados = AnimalesEliminados.query.all()
     
@@ -132,7 +132,7 @@ def eliminar_animal(id):
     if not animal:
         return jsonify({"error": "Animal no encontrado"}), 404
 
-    # Mover el animal a la tabla AnimalesEliminados
+    # Mover el animal a la tabla animales_elimiados
     animal_eliminado = AnimalesEliminados(
         id=animal.id,
         raza=animal.raza,
