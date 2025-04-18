@@ -818,13 +818,13 @@ function mostrarFormularioAgregar() {
             </select>
 
             <label>Edad:</label>
-            <input type="number" id="add-edad">
+            <input type="number" id="new-edad">
 
             <label>Raza:</label>
-            <input type="text" id="add-raza">
+            <input type="text" id="new-raza">
 
             <label>Peso:</label>
-            <input type="number" id="add-peso">
+            <input type="number" id="new-peso">
 
             <label>Propósito:</label>
             <select id="add-proposito">
@@ -834,16 +834,16 @@ function mostrarFormularioAgregar() {
             </select>
 
             <label>Fecha de Nacimiento:</label>
-            <input type="date" id="add-fechaNacimiento">
+            <input type="date" id="new-fechaNacimiento">
 
             <label>Lote:</label>
-            <input type="text" id="add-lote">
+            <input type="text" id="new-lote">
 
             <label>Cantidad de Partos:</label>
-            <input type="number" id="add-cantidadPartos">
+            <input type="number" id="new-cantidadPartos">
 
             <label>Fecha Último Parto:</label>
-            <input type="date" id="add-fechaUltimoParto">
+            <input type="date" id="new-fechaUltimoParto">
 
             <div class="modal-buttons">
                 <button id="guardar-animal">Guardar</button>
