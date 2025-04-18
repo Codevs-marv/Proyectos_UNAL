@@ -861,7 +861,7 @@ function mostrarFormularioAgregar() {
     });
 
     // Evento para guardar el nuevo animal
-    document.getElementById("guardar-nuevo-animal").addEventListener("click", agregarAnimal);
+    document.getElementById("guardar-animal").addEventListener("click", agregarAnimal);
 }
 
 
