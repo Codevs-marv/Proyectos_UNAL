@@ -29,6 +29,21 @@ body {
     animation: fadeIn 0.8s ease-in-out;
 }
 
+.title {
+    font-size: 32px;
+    font-weight: 800;
+    color: #1c7680;
+    text-align: center;
+    margin-bottom: 10px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    letter-spacing: 1px;
+    font-family: 'Quicksand', sans-serif;
+    background: linear-gradient(90deg, #1c7680, #2498a5);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
 .logo {
     width: 260px;
     height: 260px;
@@ -40,7 +55,7 @@ form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px; /* nuevo */
+    gap: 15px;
 }
 
 .label {
