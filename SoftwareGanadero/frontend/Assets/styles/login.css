@@ -1,30 +1,10 @@
-:root {
-    --white: #fefefe;
-    --black: #000000;
-    --dark: #232830;
-    --error: #f70606;
-    --very-light-gray: #C7C7C7;
-    --text-input-field: #F7F7F7;
-    --green: #2a553a;
-    --background: #ece8dd;
-    --sm: 20px;
-    --md: 15px;
-    --lg: 18px;
-
-}
-
 body {
     margin: 0;
     font-family: 'Quicksand', sans-serif;
-    background-image: url('../img/fondo.jpg'); /* Ruta de la imagen */
-    background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
-    background-position: center; /* Centra la imagen */
-    background-repeat: no-repeat; /* Evita que la imagen se repita */
-    /* background-color: var(--background); */
-}
-
-.inactive{
-    display: none;
+    background-image: url('../img/FondoL.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .login {
@@ -34,103 +14,81 @@ body {
     place-items: center;
 }
 
-.form-container{
-    width: 300px;
+.form-container {
+    width: 340px;
+    background-color: rgba(255, 255, 255, 0.238);
+    padding: 50px 30px;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
     display: grid;
     grid-template-rows: auto 1fr auto;
+    gap: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 1s ease;
+    animation: fadeIn 0.8s ease-in-out;
 }
 
 .logo {
-    width: 200px;
-    height: 200px;
-    /* margin-bottom: 48px; */
+    width: 260px;
+    height: 260px;
     justify-self: center;
-    /* display: none; */
+    margin-bottom: 24px;
 }
 
-#form-login{
+form {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    gap: 15px; /* nuevo */
 }
 
-#form-login p{
-    font-size: var(--md);
-    color: var(--very-light-gray);
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 32px;
-}
-
-.label{
-    font-size: var(--sm);
+.label {
+    font-size: 17px;
     font-weight: bold;
-    margin-bottom: 4px;
-    color: var(--white);
-}
-
-.input{
-    background-color: var(--text-input-field);
-    /* background-color: transparent; */
-    border: 1px solid var(--green);
-    border-radius: 20px;
-    height: 30px;
-    font-size: 20px;
-    padding: 6px;
-    margin-bottom: 16px;
-}
-
-.primary-button{
-    background-color: var(--green);
-    border-radius: 8px;
-    border: none;
-    color: var(--white);
+    color: #000000;
+    margin-bottom: 8px;
+    text-align: center;
     width: 100%;
-    height: 50px;
-    cursor: pointer;
-    font-size: var(--md);
-    font-weight: bold;
-    margin-top: 20px;
 }
 
-.login-button{
-    margin-top: 14px;
-    margin-bottom: 10px;
-    border-radius: 30px;
-}
-
-.forgot {
-    font-size: var(--sm);
-    display: flex;
-    flex-direction: column;
-}
-.forgot a{
-    margin-bottom: 52px;
-    color: var(--green);
-    text-decoration: none;
+.input {
+    width: 100%;
+    background-color: #ffffff84;
+    border: 1px solid #2a553a00;
+    border-radius: 12px;
+    height: 40px;
+    font-size: 15px;
+    padding: 0 10px;
+    margin-bottom: 5px;
+    transition: all 0.3s ease;
     text-align: center;
 }
 
-.secondary-button{
-    background-color: var(--white);
-    border-radius: 8px;
-    border: 2px solid var(--green);
-    color: var(--green);
-    width: 100%;
-    height: 50px;
+.primary-button {
+    padding: 10px 60px;
+    font-size: 16px;
+    background-color: #2498a5;
+    color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 20px;
     cursor: pointer;
-    font-size: var(--md);
+    transition: background-color 0.3s ease;
     font-weight: bold;
+    display: block;
+    margin-top: 20px;
 }
 
-.secondary-button a{
-    color: var(--green);
-    text-decoration: none;
+.primary-button:hover {
+    background-color: #1c7680;
 }
 
-.error{
-    color: var(--error);
+.primary-button:active {
+    background-color: #1c7680;
+    transform: scale(0.98);
 }
 
-.error-input{
-    border: 1px solid var(--error);
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
