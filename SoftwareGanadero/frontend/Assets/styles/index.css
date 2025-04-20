@@ -183,7 +183,7 @@ body {
     padding: 5px 20px;
     margin: 20px;
     border-radius: 50px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(155, 35, 35, 0.1);
     width: fit-content;
     margin-left: auto;
 }
@@ -201,12 +201,12 @@ body {
 #usuario-info {
     font-size: 16px;
     font-weight: bold;
-    color: #333;
-    white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+    color: #000000;
+    white-space: nowrap;
 }
 
-/* 🔹 Ajuste de los iconos para que estén alineados */
-.icono-cerrar-sesion, 
+/* Ajuste de los iconos para que estén alineados */
+.icono-cerrar-sesion,
 .icono-perfil {
     width: 40px;
     height: 40px;
@@ -214,7 +214,7 @@ body {
     transition: transform 0.2s ease-in-out;
 }
 
-/* 🔹 Espaciado entre los iconos y la info del usuario */
+/* Espaciado entre los iconos y la info del usuario */
 .perfil-container {
     position: relative;
     display: inline-block;
@@ -229,7 +229,7 @@ body {
     cursor: pointer;
 }
 
-/* 🔹 Ícono de cerrar sesión */
+/* Ícono de cerrar sesión */
 .icono-cerrar-sesion {
     width: 40px;
     height: 40px;
@@ -241,7 +241,7 @@ body {
     transform: scale(1.3); /* Efecto de agrandado */
 }
 
-/* 🔹 Tooltip de Cerrar Sesión */
+/* Tooltip de Cerrar Sesión */
 .tooltip {
     visibility: hidden;
     width: 100px;
@@ -252,7 +252,7 @@ body {
     border-radius: 5px;
 
     position: absolute;
-    bottom: 51px; /* 🔹 Aparece debajo del icono */
+    bottom: 51px;
     left: 50%;
     transform: translateX(-50%);
     opacity: 0;
@@ -261,7 +261,7 @@ body {
     white-space: nowrap;
 }
 
-/* 🔹 Mostrar tooltip al pasar el cursor */
+/* Mostrar tooltip al pasar el cursor */
 .cerrar-sesion-container:hover .tooltip {
     visibility: visible;
     opacity: 1;
@@ -289,14 +289,14 @@ body {
     transform: scale(1.3);
 }
 
-/* 🔹 Contenedor del icono de perfil con tooltip */
+/* Contenedor del icono de perfil con tooltip */
 .perfil-container {
     position: relative;
     display: inline-block;
     cursor: pointer;
 }
 
-/* 🔹 Tooltip del icono de perfil */
+/* Tooltip del icono de perfil */
 .tooltip-perfil {
     visibility: hidden;
     width: 80px;
@@ -388,7 +388,7 @@ footer {
 #seccion-animales {
     margin: 20px;
     padding: 20px;
-    background: white;
+    background: rgb(255, 255, 255);
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     position: relative;
@@ -409,7 +409,7 @@ footer {
 
 /* TARJETAS DE ANIMALES*/
 .tarjeta-animal {
-    width: 200px; /* 🔹 Tamaño más compacto */
+    width: 200px;
     height: 140px;
     background: #ffffff;
     border-radius: 8px;
@@ -422,7 +422,7 @@ footer {
 
 /* Efecto hover: agranda la tarjeta al pasar el mouse */
 .tarjeta-animal:hover {
-    transition: 0.9s;
+    transition: 0.8s;
     transform: scale(1.3);
     height: auto;
 }
@@ -430,16 +430,16 @@ footer {
 /* Imagen del animal */
 .tarjeta-animal img {
     width: 100%;
-    height: 110px; /* 🔹 Tamaño más pequeño */
+    height: 110px;
     object-fit: cover;
     border-radius: 8px;
 }
 
 /* Información del animal */
 .tarjeta-animal .info {
-    display: id; /* 🔹 Ocultar info por defecto */
+    display: id; /* Ocultar info por defecto */
     font-size: 12px;
-    color: #333;
+    color: #000000;
 }
 
 /* Mostrar la info al hacer hover */
@@ -470,7 +470,7 @@ footer {
 
 /* Estilo específico para el botón Eliminar (Rojo) */
 .tarjeta-animal .btn-eliminar {
-    background: #dc3545;
+    background: #db2739;
     border-radius: 15px;
     color: white;
 }
@@ -495,7 +495,7 @@ footer {
     font-size: 14px;
     border: none;
     cursor: pointer;
-    background-color: #4CAF50;
+    background-color: #2b6891;
     color: white;
     border-radius: 20px; 
     transition: background 0.3s ease;
@@ -586,14 +586,13 @@ footer {
 
 /* ESTILOS DE LO RELACIONADO CON BUSCAR*/
 /* Contenedor de búsqueda y botón agregar */
-/* 🔹 Contenedor del buscador y botones */
 .search-container {
     display: flex;
     align-items: center;
     gap: 10px; /* Espacio entre elementos */
 }
 
-/* 🔹 Estilos del botón "Filtrar" */
+/* Estilos del botón "Filtrar" */
 #btn-abrir-filtro {
     background: #2c3e50;
     color: white;
